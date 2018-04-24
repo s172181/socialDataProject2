@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">    
+    <head>        
+        <meta charset="utf-8">        
+        <title>D3 Page Template</title>        
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>      
+        <link rel="stylesheet" href="style.css">
+    </head>    
+    <body style="text-align:center">     
+    <h3>Incidents on new york</h3>
+    <div id = "graphics">
+        <div id="mapgraph" class="centergraphs">
+        </div>        
+    </div>
+    <script type="text/javascript"> 
+    //Width and height
+    var w = 600;
+    var h = 500;
+    var width = 1200;
+    var height = 200;
+    var datac = [];
+    var padding = 40;
+    var colors = ["#FFCC80","#FFB74D","#FF9800","#FB8C00","#F57C00","#EF6C00"];
+
+    //For converting Dates to strings
+    var formatTime = d3.timeFormat("%Y");
+    //var colors = ["#D81B60","#b4b4b4","#999999","#666666","#333333","#c000000"];
+                   
+    //Create SVG element
+    var svg = d3.select("#mapgraph")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+                
+    function getSortedKeys(obj) {
+    var keys = []; for(var key in obj) keys.push(key);
+    return keys.sort(function(a,b){return obj[b]-obj[a]});
+}
+
+    //read number of zip codes
+    var zipcodesN = [];
+    var totalinc = [];
+    d3.csv("zipcodes2017.csv", function(data){
+            totalincidents = 0;
+            data.map(function(d){
+                   codestring = d.ZIP_CODE;
+                   zipcodesN[codestring.toString()+""] = parseInt(d.Group_Count);
+                   totalincidents += parseInt(d.Group_Count);
+            });
+            totalzip = zipcodesN.length;
+            for (var key in zipcodesN) {
+            console.log(zipcodesN[key]);
+                totalinc[key] = parseFloat(zipcodesN[key]/totalincidents)*70;
+            }
+            loaddatamap();
+    })
+			
+    //Load in GeoJSON data
+    function loaddatamap () {
+    d3.json("nyc-zip-code.json", function(json) {
+    
+        var center = d3.geoCentroid(json); // need this to center the projection correctly
+    
+        var projection = d3.geoMercator()
+                        .center(center)
+                        .scale(50000)
+                        .translate([(w) / 2, (h)/2]);
+
+        //An SVG Path is capable of drawing rectangles, circles, ellipses, polylines.. etc
+        // en la analogia de papel y pen, es el path que se dibuja de un punto a otro
+        //Define path generator, using the Albers USA projection
+        var path = d3.geoPath() //translating that mess of GeoJSON coordinates into even messier messes of SVG path codes
+                .projection(projection);
+                
+        
+                
+        //Bind data and create one path per GeoJSON feature
+        //Each one of these Features represents a US state or city
+        //es un multipoligono
+        //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
+        //These commands and parameters are a sequential set of instructions for how to "move the pen over the paper".
+        svg.selectAll("path")
+        .data(json.features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .style("fill", "#EF6C00")
+           .style("opacity",function(d) {
+               //Get data value
+               var value = d.properties.postalCode;
+               var randomn = Math.floor(Math.random() * (6));
+               return totalinc[value.toString()];
+           })
+           
+       
+        
+
+    });
+    }
+    </script>    
+    </body>
+</html>
