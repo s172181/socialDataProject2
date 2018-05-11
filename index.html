@@ -6,6 +6,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>   
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> 
         <link rel="stylesheet" href="css/style.css">
     </head>    
     <body style="text-align:center">  
@@ -81,7 +82,21 @@
             var keys = []; for(var key in obj) keys.push(key);
             return keys.sort(function(a,b){return obj[b]-obj[a]});
         }
-    
+    // Spinner while the data is loading
+    var opts = {
+    	lines: 9, // The number of lines to draw
+  		length: 9, // The length of each line
+  		width: 5, // The line thickness
+  		radius: 18, // The radius of the inner circle
+  		color: '#EE3624', // #rgb or #rrggbb or array of colors
+  		speed: 1.9, // Rounds per second
+  		trail: 40, // Afterglow percentage
+  		className: 'spinner', // The CSS class to assign to the spinner
+    };
+    var targetMap = document.getElementById('mapgraph');
+    var spinner = new Spinner(opts).spin(targetMap);
+    var targetTimeline = document.getElementById('timeline');
+    var spinnerTimeline = new Spinner(opts).spin(targetTimeline);
     //Load in GeoJSON data
     function loaddatamap (ni_choosenYear,ni_choosenYear_op) {
         d3.select("#mapgraph").select("svg").remove();
@@ -91,9 +106,11 @@
                     .append("svg")
                     .attr("width", w)
                     .attr("height", h);
-    
-        d3.json("nyc-zip-code.json", function(json) {
         
+        //console.log(target);
+        d3.json("nyc-zip-code.json", function(json) {
+        	spinnerTimeline.stop();
+        	spinner.stop();
             var center = d3.geoCentroid(json); // need this to center the projection correctly
         
             var projection = d3.geoMercator()
@@ -111,7 +128,7 @@
                 .style("opacity", 0);
                     
             //Bind data and create one path per GeoJSON feature
-            //Each one of these Features represents a US state or city
+            //Each one of these Features represents a ZIP code
             //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
             var nymap = svg.selectAll("path")
             .data(json.features)

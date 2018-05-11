@@ -74,6 +74,7 @@
                     }
             }
             loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
+
     })
     
     var incidentsMonthYear = {};
