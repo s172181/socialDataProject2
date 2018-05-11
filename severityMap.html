@@ -39,7 +39,7 @@
 			}
     // Load the csv and get out the max UNITS_ONSCENE per ZIP_CODE via some magic
     var maxunitsdata;
-    d3.csv("full_csv_year_files/2017full.csv", unitsNumbers, function(data){
+    d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
     	maxunitsdata = d3.nest()
     		.key(function(d){return d.ZIP_CODE;})
     		.rollup(function(d){
