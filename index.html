@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">    
+    <head>        
+        <meta charset="utf-8">        
+        <title>Incidents Responded to by Fire Companies</title>        
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+    </head>    
+    <body style="text-align:center">  
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse " >
+    <div class="container" >
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <div class="tabbable">
+            <ul id="tabsContainer" class="nav nav-pills">
+                <li class="active">
+                    <a href="#">INCIDENTS</a>
+                </li>
+                <li><a href="#">SEVERITY</a></li>
+                <li><a href="#">OTHER</a></li>
+            </ul>
+            </div>
+        </div>
+    </div>
+    </nav>
+
+    <div id="container">
+        <div id="textinfo"> 
+            <div class="box-content"> 
+            <div id="titleStory">Example of heather of story</div>
+            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
+            </div>
+        </div>
+        <div id="visualizations"> 
+            <div id = "graphics">
+                <div id="listyear">
+                    <ul>
+                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
+                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
+                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
+                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
+                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
+                    </ul>
+                </div>
+                <div id="maprest">
+                   <div id="mapandtime">
+                    <div id="mapgraph" class="centergraphs">
+                        
+                    </div>    
+                    <div id = "timeline" class="centergraphs2">
+                    
+                    </div>
+                   </div>
+                   <div id="incidenttypes">
+                   <div class="box-content"> 
+                    <div id="titleStory">Type of incidents</div>
+                    <div>Here list of incidents</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="position: relative;">    
+        <div style="position: absolute; ">
+            <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
+        </div>
+    </div>
+    
+    <script src="zipCodesIncPop.js"></script>
+    <script type="text/javascript"> 
+    //Width and height
+    var w = 600;
+    var h = 500;     
+    
+    //Load in GeoJSON data
+    function loaddatamap () {
+        //Create SVG element
+        var svg = d3.select("#mapgraph")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+                    
+        function getSortedKeys(obj) {
+            var keys = []; for(var key in obj) keys.push(key);
+            return keys.sort(function(a,b){return obj[b]-obj[a]});
+        }
+    
+        d3.json("nyc-zip-code.json", function(json) {
+            var ni_choosenYear = zipcodesAll["2013"];
+            var ni_choosenYear_op = totalincAll["2013"];
+        
+            var center = d3.geoCentroid(json); // need this to center the projection correctly
+        
+            var projection = d3.geoMercator()
+                            .center(center)
+                            .scale(50000)
+                            .translate([(w) / 2, (h)/2]);
+
+            var path = d3.geoPath() //translating GeoJSON coordinates into SVG path codes
+                    .projection(projection);
+                    
+            
+            // Define the div for the tooltip
+            var div = d3.select("body").append("div")	
+                .attr("class", "tooltip")				
+                .style("opacity", 0);
+                    
+            //Bind data and create one path per GeoJSON feature
+            //Each one of these Features represents a US state or city
+            //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
+            var nymap = svg.selectAll("path")
+            .data(json.features)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .style("fill", function(d) {
+                //Get data value
+                var value = d.properties.postalCode;
+                //console.log("zip code here "+value.toString()+" - "+ni_choosenYear_op[value.toString()])
+                if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1)
+                    return "000000";
+                return "#EF6C00";
+            })
+            .style("opacity",function(d) {
+                //Get data value
+                var value = d.properties.postalCode;
+                if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1)
+                    return 0.09;
+                return ni_choosenYear_op[value.toString()];
+            })
+            .on("mouseover", function(d) {		
+                div.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);
+                //Here we add what we what to put on the tip
+                var value = d.properties.postalCode;
+                var nIncPer = 0;
+                if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1)
+                    nIncPer = "N/A";
+                else 
+                    nIncPer = ni_choosenYear[value.toString()];
+                div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
+                            +nIncPer)	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+            // this.style("fill", "#909090");
+                var currentState = this;
+                d3.select(this).style('fill', "#e1e1e1");
+                d3.select(this).style('stroke', "#333333");
+                d3.select(this).style('stroke-opacity',  "1");
+                })            
+            .on("mouseout", function(d) {		
+                /*div.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);*/	
+                var currentState = this;
+                var value = d.properties.postalCode;
+                d3.select(this).style('stroke', "none");
+                if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1) {                
+                    d3.select(this).style('opacity',  0.09);
+                    d3.select(this).style('fill', "#000000");
+                }
+                else {
+                    d3.select(this).style('opacity',  ni_choosenYear_op[value.toString()]);
+                    d3.select(this).style('fill', "#EF6C00");
+                }
+            });
+
+        });
+    }
+    
+     
+     var formatTime = d3.timeFormat("%m");
+     /*
+     *This function creates the timeline
+     */
+     function painttimeline(incidentsMonthYear,mindate,maxdate) {
+        var width = 600;
+        var height = 200;
+        var padding = 50;
+        xScale = d3.scaleTime()
+               .domain([
+                    mindate,
+                    maxdate
+                ])
+               .range([padding, width]);
+               
+        var yScale = d3.scaleLinear()
+        .domain([0, d3.max(incidentsMonthYear, function(d) { return d.value; })])
+        .range([height - padding, padding]);
+        //Define axes
+        xAxis = d3.axisBottom()
+                .scale(xScale)
+                .ticks(12)
+                .tickFormat(formatTime);
+                
+        //Define Y axis
+        yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(3);
+                
+        //Define line generator
+        var line = d3.line()
+            .x(function(d) { return xScale(new Date(d.key)); })
+            .y(function(d) { return yScale(d.value); });
+            
+        d3.select("#timeline").select("svg").remove();
+        
+        //Create SVG element
+        var svg2 = d3.select("#timeline")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+            
+        //Create line
+        var linegraph = svg2.append("path")
+        .datum(incidentsMonthYear)
+        .attr("class", "line")
+        .attr("d", line)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue");
+        
+        //Create axes
+        svg2.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (height - padding) + ")")
+                .call(xAxis);
+
+        svg2.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(" + padding + ",0)")
+                .call(yAxis);
+                
+        //Define clipping path
+        svg2.append("clipPath")                  
+            .attr("id", "chart-area")           
+            .append("rect")      
+            .attr("width", width)
+            .attr("height", height-padding);
+            
+        //Label of the Y axis
+        svg2.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0)
+            .attr("x",-100)
+            .attr("dy", "1em")
+            .style("font-size", "11px")
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text("# of Incidents");
+     }
+    
+    </script>    
+    </body>
+</html>
