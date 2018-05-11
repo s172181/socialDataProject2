@@ -77,23 +77,22 @@
     //Width and height
     var w = 600;
     var h = 500;     
+    function getSortedKeys(obj) {
+            var keys = []; for(var key in obj) keys.push(key);
+            return keys.sort(function(a,b){return obj[b]-obj[a]});
+        }
     
     //Load in GeoJSON data
-    function loaddatamap () {
+    function loaddatamap (ni_choosenYear,ni_choosenYear_op) {
+        d3.select("#mapgraph").select("svg").remove();
+        
         //Create SVG element
         var svg = d3.select("#mapgraph")
                     .append("svg")
                     .attr("width", w)
                     .attr("height", h);
-                    
-        function getSortedKeys(obj) {
-            var keys = []; for(var key in obj) keys.push(key);
-            return keys.sort(function(a,b){return obj[b]-obj[a]});
-        }
     
         d3.json("nyc-zip-code.json", function(json) {
-            var ni_choosenYear = zipcodesAll["2013"];
-            var ni_choosenYear_op = totalincAll["2013"];
         
             var center = d3.geoCentroid(json); // need this to center the projection correctly
         
@@ -145,7 +144,7 @@
                     nIncPer = "N/A";
                 else 
                     nIncPer = ni_choosenYear[value.toString()];
-                div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
+                div.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
                             +nIncPer)	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
@@ -156,9 +155,8 @@
                 d3.select(this).style('stroke-opacity',  "1");
                 })            
             .on("mouseout", function(d) {		
-                /*div.transition()		
-                    .duration(500)		
-                    .style("opacity", 0);*/	
+                div.transition()			
+                    .style("opacity", 0);	
                 var currentState = this;
                 var value = d.properties.postalCode;
                 d3.select(this).style('stroke', "none");

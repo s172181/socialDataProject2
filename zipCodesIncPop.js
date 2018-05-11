@@ -73,7 +73,7 @@
                         totalincAll[key][subkey] =  normalize*2;
                     }
             }
-            loaddatamap();
+            loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
     })
     
     var incidentsMonthYear = {};
@@ -170,6 +170,7 @@
     function changetimeline(year) {
         $(".listyears").removeClass("selected");
         $("#l"+year).addClass("selected");
+        loaddatamap(zipcodesAll[year],totalincAll[year]);
         painttimeline(incidentsMonthYear[year],mindate[year],maxdate[year]);
     }
     
