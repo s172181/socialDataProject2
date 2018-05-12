@@ -66,40 +66,41 @@ font-family: 'Roboto', 'Noto', sans-serif;
 #tabsContainer {
    position: absolute;
    bottom:-1px;
-    left: 50%;
-    transform: translatex(-50%);
+   left: 33%;
+    transform: translatex(-25%);
 }
-#titleStory {
+#titleStory, #titleStory2,#titleStory3 {
 font-size: 25px;
 font-weight: 500;
     line-height: 1.1;
     color: inherit;
 }
 
-#textinfo{
+#textinfo,#textinfo2,#textinfo3{
     width: 250px;
     float: left;
         padding: 10px;
 }
-#visualizations {
+#visualizations, #visualizations2, #visualizations3 {
     overflow: hidden
 }
-#listyear{
+#listyear, #listyear2, #listyear3{
     width: 150px;
     float: left;
     text-align: right;
         padding: 10px;
+        padding-top:120px;
 }
-#maprest {
+#maprest,#maprest2,#maprest3 {
     overflow: hidden
 }
-#listyear ul {
+#listyear ul, #listyear2 ul, #listyear3 ul {
 list-style-type: none;
 }
-#listyear li {
+#listyear li, #listyear2 li, #listyear3 li {
 padding: 10px 5px !important;
 }
-#listyear li a {
+#listyear li a, #listyear2 li a, #listyear3 li a {
 padding: 5px 5px !important;
 text-decoration: none;
 font-weight: bold;
@@ -111,7 +112,7 @@ font-family: 'Roboto', 'Noto', sans-serif;
     background-color: transparent !important;
     cursor:pointer;
 }
-#listyear .selected, #listyear li a:hover{
+#listyear .selected, #listyear li a:hover, #listyear2.selected, #listyear2 li a:hover, #listyear3.selected, #listyear3 li a:hover{
 padding: 5px 5px !important;
     border-bottom-width: 1.5px;
 border-bottom-style: solid;
@@ -146,11 +147,11 @@ border-bottom-style: solid;
 /*
  * *Incident types
  * */
-#mapandtime{
+#mapandtime, #mapandtime2{
     float: left;
         padding: 10px;
 }
-#incidenttypes {
+#incidenttypes2 {
  width: 250px;
      overflow: hidden
 }

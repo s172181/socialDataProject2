@@ -4,7 +4,7 @@
         <meta charset="utf-8">        
         <title>Incidents Responded to by Fire Companies</title>        
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>   
+        <script type="text/javascript" src="d3/d3.js"></script> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> 
         <link rel="stylesheet" href="css/style.css">
@@ -18,11 +18,13 @@
         <div class="navbar-header">
             <div class="tabbable">
             <ul id="tabsContainer" class="nav nav-pills">
-                <li class="active">
-                    <a href="#">INCIDENTS</a>
+                <li id="lsection1" class="active">
+                    <a onclick="changesection(1)" style="cursor:pointer">INCIDENTS PER YEAR</a>
                 </li>
-                <li><a href="#">SEVERITY</a></li>
-                <li><a href="#">OTHER</a></li>
+                <li id="lsection2">
+                    <a onclick="changesection(2)" style="cursor:pointer">TYPES OF INCIDENTS</a>
+                </li>
+                <li id="lsection3"><a onclick="changesection(3)" style="cursor:pointer">SEVERITY</a></li>
             </ul>
             </div>
         </div>
@@ -30,6 +32,7 @@
     </nav>
 
     <div id="container">
+       <div id="section1">
         <div id="textinfo"> 
             <div class="box-content"> 
             <div id="titleStory">Example of heather of story</div>
@@ -56,15 +59,78 @@
                     
                     </div>
                    </div>
-                   <div id="incidenttypes">
+                </div>
+            </div>
+        </div>
+      </div>
+      <div id="section2" style="display:none">
+        <div id="textinfo2"> 
+            <div class="box-content"> 
+            <div id="titleStory2">Example of 2222</div>
+            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
+            </div>
+        </div>
+        <div id="visualizations2"> 
+            <div id = "graphics2">
+                <div id="listyear2">
+                    <ul>
+                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
+                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
+                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
+                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
+                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
+                    </ul>
+                </div>
+                <div id="maprest2">
+                   <div id="mapandtime2">
+                    <div id="mapgraph2" class="centergraphs">
+                        
+                    </div>    
+                    <div id = "timeline2" class="centergraphs2">
+                    
+                    </div>
+                   </div>
+                   <div id="incidenttypes2">
                    <div class="box-content"> 
-                    <div id="titleStory">Type of incidents</div>
+                    <div id="titleStory2">Type of incidents</div>
                     <div>Here list of incidents</div>
                     </div>
                     </div>
                 </div>
             </div>
         </div>
+      </div>
+      <div id="section3" style="display:none">
+        <div id="textinfo3"> 
+            <div class="box-content"> 
+            <div id="titleStory3">Example of 3333</div>
+            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
+            </div>
+        </div>
+        <div id="visualizations3"> 
+            <div id = "graphics3">
+                <div id="listyear3">
+                    <ul>
+                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
+                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
+                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
+                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
+                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
+                    </ul>
+                </div>
+                <div id="maprest3">
+                   <div id="mapandtime3">
+                    <div id="mapgraph3" class="centergraphs">
+                        
+                    </div>    
+                    <div id = "timeline3" class="centergraphs2">
+                    
+                    </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
     
     <div style="position: relative;">    
@@ -76,8 +142,16 @@
     <script src="zipCodesIncPop.js"></script>
     <script type="text/javascript"> 
     //Width and height
+    var previoussection = 1;
     var w = 600;
     var h = 500;     
+    
+    //For section 1
+    var svg = d3.select("#mapgraph")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+                    
     function getSortedKeys(obj) {
             var keys = []; for(var key in obj) keys.push(key);
             return keys.sort(function(a,b){return obj[b]-obj[a]});
@@ -99,13 +173,14 @@
     var spinnerTimeline = new Spinner(opts).spin(targetTimeline);
     //Load in GeoJSON data
     function loaddatamap (ni_choosenYear,ni_choosenYear_op) {
-        d3.select("#mapgraph").select("svg").remove();
+    
+        //d3.select("#mapgraph").select("svg").remove();
         
         //Create SVG element
-        var svg = d3.select("#mapgraph")
+        /*var svg = d3.select("#mapgraph")
                     .append("svg")
                     .attr("width", w)
-                    .attr("height", h);
+                    .attr("height", h);*/
         
         //console.log(target);
         d3.json("nyc-zip-code.json", function(json) {
@@ -126,7 +201,6 @@
             var div = d3.select("body").append("div")	
                 .attr("class", "tooltip")				
                 .style("opacity", 0);
-                    
             //Bind data and create one path per GeoJSON feature
             //Each one of these Features represents a ZIP code
             //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
@@ -134,8 +208,16 @@
             .data(json.features)
             .enter()
             .append("path")
-            .attr("d", path)
-            .style("fill", function(d) {
+            .attr("d", path);
+            
+            loadinfomap(ni_choosenYear,ni_choosenYear_op);
+
+        });
+    }
+    
+    function loadinfomap(ni_choosenYear,ni_choosenYear_op) {
+        var nymap = svg.selectAll("path")
+        .style("fill", function(d) {
                 //Get data value
                 var value = d.properties.postalCode;
                 //console.log("zip code here "+value.toString()+" - "+ni_choosenYear_op[value.toString()])
@@ -186,8 +268,6 @@
                     d3.select(this).style('fill', "#EF6C00");
                 }
             });
-
-        });
     }
     
      
@@ -196,6 +276,7 @@
      *This function creates the timeline
      */
      function painttimeline(incidentsMonthYear,mindate,maxdate) {
+     
         var width = 600;
         var height = 200;
         var padding = 50;
@@ -269,6 +350,27 @@
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
             .text("# of Incidents");
+     }
+     
+     
+     function changesection(section) {
+        if (previoussection==1) {
+            d3.select("#mapgraph").select("svg").remove();
+            d3.select("#timeline").select("svg").remove();
+        }
+        else if (previoussection!=1 && section==1) {
+            svg = d3.select("#mapgraph")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+            loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
+            painttimeline(incidentsMonthYear["2013"],mindate["2013"],maxdate["2013"]);
+        }
+        $("#section"+previoussection).css("display","none");
+        $("#section"+section).css("display","block");
+        $("#lsection"+previoussection).removeClass("active");
+        $("#lsection"+section).addClass("selected");
+        previoussection = section;
      }
     
     </script>    

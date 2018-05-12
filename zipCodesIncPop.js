@@ -19,7 +19,7 @@
     var totalincAll = {};
     var maxV = [], minV = [];
     var whatzip = 0;
-    loadtimeline2013();
+    
     /*
      * This creates an array for every year containing the scale, distribution of incidents per zip code, per year
      */
@@ -74,7 +74,7 @@
                     }
             }
             loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
-
+            loadtimeline2013();
     })
     
     var incidentsMonthYear = {};
@@ -84,7 +84,6 @@
      *  This is to obtain the number of incidents per year, per date. This is for the timeline
      */
     function loadtimeline2013() {
-            
             //Row convertion of date
             var rowConverter = function(d) {
                     var aux = new Date(d.INCIDENT_DATE_TIME);
@@ -171,7 +170,7 @@
     function changetimeline(year) {
         $(".listyears").removeClass("selected");
         $("#l"+year).addClass("selected");
-        loaddatamap(zipcodesAll[year],totalincAll[year]);
+        loadinfomap(zipcodesAll[year],totalincAll[year]);
         painttimeline(incidentsMonthYear[year],mindate[year],maxdate[year]);
     }
     
