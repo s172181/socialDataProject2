@@ -4,13 +4,18 @@
         <meta charset="utf-8">        
         <title>Incidents Responded to by Fire Companies</title>        
         <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>   
-        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> 
+        <link rel="stylesheet" href="css/style.css">
     </head>    
     <body style="text-align:center">     
     <h3>Incidents Responded to by Fire Companies</h3>
     <div id = "graphics">
         <div id="mapgraph" class="centergraphs">
         </div>        
+    </div>
+    <div id = "buttonplace">
+         <button class = "button button1" id = "buttonsevere" disabled=true onclick="showMostSevere()">Highlight the most severe incidents</button>
     </div>
     <script type="text/javascript"> 
     //Width and height
@@ -28,16 +33,31 @@
         return keys.sort(function(a,b){return obj[b]-obj[a]});
     }
 
+    // Spinner while the data is loading
+    var opts = {
+    	lines: 9, // The number of lines to draw
+  		length: 9, // The length of each line
+  		width: 5, // The line thickness
+  		radius: 18, // The radius of the inner circle
+  		color: '#EE3624', // #rgb or #rrggbb or array of colors
+  		speed: 1.9, // Rounds per second
+  		trail: 40, // Afterglow percentage
+  		className: 'spinner', // The CSS class to assign to the spinner
+    };
+    var targetMap = document.getElementById('mapgraph');
+    var spinner = new Spinner(opts).spin(targetMap);
+
 	var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"); //convert strings to dates in Date format
 	//var formatDate = d3.timeFormat("%Y-%m-%d %H:%M:%S"); // and vice versa
     var unitsNumbers = function(row){
 				return{
 					INCIDENT_DATE_TIME: parseDate(row.INCIDENT_DATE_TIME),
 					ZIP_CODE: row.ZIP_CODE,
-					UNITS_ONSCENE: +row.UNITS_ONSCENE
+					UNITS_ONSCENE: +row.UNITS_ONSCENE,
+					URL: row.URL
 				}	
 			}
-    // Load the csv and get out the max UNITS_ONSCENE per ZIP_CODE via some magic
+    // Load the regular year csv and get out the max UNITS_ONSCENE per ZIP_CODE via some magic
     var maxunitsdata;
     d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
     	maxunitsdata = d3.nest()
@@ -48,10 +68,22 @@
     		loaddatamap();
     })
 
+    // Load the csv with the most severe incidents
+    var severestdata;
+    d3.csv("full_csv_year_files/biggestincidentsalltime.csv", unitsNumbers, function(data){
+    	severestdata = data; // much simpler here as all data is already in csv
+    })
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
+    var nymap;
     //Load in GeoJSON data
     function loaddatamap () {
     d3.json("nyc-zip-code.json", function(json) {
-    
+    	spinner.stop();
+    	var buttonsevere = document.getElementById("buttonsevere");
+    	buttonsevere.disabled = false; // finished loading data, enable the button
         var center = d3.geoCentroid(json); // need this to center the projection correctly
     
         var projection = d3.geoMercator()
@@ -63,14 +95,11 @@
                 .projection(projection);
                 
         
-        // Define the div for the tooltip
-        var div = d3.select("body").append("div")	
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
+        
         //Bind data and create one path per GeoJSON feature
         //Each one of these Features represents a NYC zip code
         //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
-        var nymap = svg.selectAll("path")
+        nymap = svg.selectAll("path")
         .data(json.features)
         .enter()
         .append("path")
@@ -136,6 +165,216 @@
 
     });
     }
+    // For links of the most severe incidents
+    function openInNewTab(url){
+    	var win = window.open(url, '_blank');
+    	win.focus();
+    }
+    var severeAreShown = false;
+    function showMostSevere(){
+    	if (severeAreShown) {
+    		severeAreShown = false;
+    		hideMostSevere();
+    		return;
+    	}
+    	svg.selectAll("path")
+    	   .style("fill", function(d){
+    	   	var value = d.properties.postalCode;
+               var zipCodeHighlighted = false;
+               for(var i = 0; i<severestdata.length; i++){
+               	if (value == severestdata[i].ZIP_CODE) {
+               		//console.log(value);
+               		zipCodeHighlighted = true;
+               		
+               	}
+               }
+               return zipCodeHighlighted ? "#830303" : "#EF6C00";
+    	   })
+    	   .style("opacity", function(d){
+    	   	//Get data value
+    	   		//var state = this;
+    	   		//d3.select(this).style('stroke', "#333333");
+               var value = d.properties.postalCode;
+               var units;
+               try{
+                 units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+        	   }
+        	   catch (e){
+        	   	//zipcode is not in maxunitsdata - set units to 0 to have white colored zone
+        	   	units = 0;
+        	   }
+               var zipCodeHighlighted = false;
+               var maxUnitsEver;
+               for(var i = 0; i<severestdata.length; i++){
+               	if (value == severestdata[i].ZIP_CODE) {
+               		//console.log(value);
+               		zipCodeHighlighted = true;
+               		maxUnitsEver = severestdata[i].UNITS_ONSCENE;
+               		
+               	}
+               }
+               return zipCodeHighlighted ? 1 : (units/15000)*120;
+    	   })
+    	   .on("click", function(d){
+    	   	  //console.log("hello my dude");
+    	   	  var value = d.properties.postalCode;
+    	   	  var zipCodeHighlighted = false;
+              var url;
+               for(var i = 0; i<severestdata.length; i++){
+               	if (value == severestdata[i].ZIP_CODE) {
+               		zipCodeHighlighted = true;
+               		url = severestdata[i].URL;
+               			
+               	}
+               }
+               if (url) {
+               	openInNewTab(url);
+               }
+               
+
+
+    	   })
+    	   .on("mouseover", function(d) {		
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);
+            //Here we add what we what to put on the tip
+            var value = d.properties.postalCode;
+            var units;
+            try{
+              units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+        	}
+        	catch (e){
+        		//zipcode is not in maxunitsdata - it's fine, just go on
+        	}
+            div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene</h3>"
+                        +units)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+           // this.style("fill", "#909090");
+           var zipCodeHighlighted = false;
+           var maxUnitsEver;
+           for(var i = 0; i<severestdata.length; i++){
+               if (value == severestdata[i].ZIP_CODE) {
+
+                   zipCodeHighlighted = true;
+                   maxUnitsEver = severestdata[i].UNITS_ONSCENE;
+                   div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene (across all years)</h3>"
+                        +maxUnitsEver)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");
+                if (severestdata[i].URL) {
+                	 d3.select(this).style('cursor', "pointer"); // make cursor pointer - it should be clickable in this case
+                }
+               
+
+               }
+            }
+            	
+            var currentState = this;
+            d3.select(this).style('fill', "#e1e1e1");
+            d3.select(this).style('stroke', "#333333");
+            d3.select(this).style('stroke-opacity',  "1");
+            })            
+        .on("mouseout", function(d) {		
+            div.transition()		// I have uncommented these lines as tooltips did not otherwise disappear...
+                .duration(350)		
+                .style("opacity", 0);	
+            var currentState = this;
+            var value = d.properties.postalCode;
+            var units;
+            try{
+              units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+        	}
+        	catch (e){
+        		//zipcode is not in maxunitsdata - set units to 0 to have white colored zone
+        		units = 0;
+        	}
+        	var zipCodeHighlighted = false;
+            for(var i = 0; i<severestdata.length; i++){
+               if (value == severestdata[i].ZIP_CODE) {
+                   zipCodeHighlighted = true;
+               }
+            }
+            d3.select(this).style('stroke', "none");
+            d3.select(this).style('opacity',  function(d){
+            	return zipCodeHighlighted ? 1 : (units/15000)*120;
+            });
+
+            d3.select(this).style('fill', function(d){
+            	return zipCodeHighlighted ? "#8B0000" : "#EF6C00";
+            });
+        });
+     severeAreShown = true;
+    var severebutton = document.getElementById("buttonsevere");
+    severebutton.innerHTML = "Back to all incidents"; // change text
+    }
+
+    function hideMostSevere(){
+		svg.selectAll("path")
+		   .style("fill", "#EF6C00")
+           .style("opacity",function(d) {
+               //Get data value
+               var value = d.properties.postalCode;
+               try{
+                 var units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+           	   }
+           	   catch (e){
+           	   	//zipcode is not in the maxunitsdata for the currently selected dataset
+           	   	//so no info available, set units to 0 to have white colored zone
+           	   	units = 0;
+           	   }
+               return (units/10000)*120;
+           })
+         .on("click", function(d){
+         	// nothing
+    	 })
+        .on("mouseover", function(d) {
+			d3.select(this).style('cursor', "default"); // make cursor default again
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);
+            //Here we add what we what to put on the tip
+            var value = d.properties.postalCode;
+            var units;
+            try{
+              units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+        	}
+        	catch (e){
+        		//zipcode is not in maxunitsdata - it's fine, just go on
+        	}
+            div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene</h3>"
+                        +units)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+           // this.style("fill", "#909090");
+            var currentState = this;
+            d3.select(this).style('fill', "#e1e1e1");
+            d3.select(this).style('stroke', "#333333");
+            d3.select(this).style('stroke-opacity',  "1");
+            })            
+        .on("mouseout", function(d) {		
+            div.transition()		// I have uncommented these lines as tooltips did not otherwise disappear...
+                .duration(350)		
+                .style("opacity", 0);	
+            var currentState = this;
+            var value = d.properties.postalCode;
+            var units;
+            try{
+              units = maxunitsdata.find(ab=>ab.key === value.toString()).value;
+        	}
+        	catch (e){
+        		//zipcode is not in maxunitsdata - set units to 0 to have white colored zone
+        		units = 0;
+        	}
+            d3.select(this).style('stroke', "none");
+            d3.select(this).style('opacity',  (units/10000)*120);
+            d3.select(this).style('fill', "#EF6C00");
+        });
+        var severebutton = document.getElementById("buttonsevere");
+    	severebutton.innerHTML = "Highlight the most severe incidents"; // change text
+    }
+
     </script>    
     </body>
 </html>

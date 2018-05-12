@@ -190,3 +190,33 @@
         painttimeline(incidentsMonthYear[year],mindate[year],maxdate[year]);
     }
     
+    /*
+     * section 3
+     * 
+     */
+    var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"); //convert strings to dates in Date format
+    var maxunitsdata;
+    var unitsNumbers = function(row){
+                                    return{
+                                            INCIDENT_DATE_TIME: parseDate(row.INCIDENT_DATE_TIME),
+                                            ZIP_CODE: row.ZIP_CODE,
+                                            UNITS_ONSCENE: +row.UNITS_ONSCENE,
+                                            URL: row.URL
+                                    }	
+                            }
+    d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
+        console.log("paso");
+            maxunitsdata = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+                    loadinfomap3();
+        });
+    
+    // Load the csv with the most severe incidents
+    var severestdata;
+    d3.csv("full_csv_year_files/biggestincidentsalltime.csv", unitsNumbers, function(data){
+        severestdata = data; // much simpler here as all data is already in csv
+    })
+    
