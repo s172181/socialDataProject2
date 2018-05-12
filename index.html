@@ -171,6 +171,10 @@
     var spinner = new Spinner(opts).spin(targetMap);
     var targetTimeline = document.getElementById('timeline');
     var spinnerTimeline = new Spinner(opts).spin(targetTimeline);
+    // Define the div for the tooltip
+            var div = d3.select("body").append("div")	
+                .attr("class", "tooltip")				
+                .style("opacity", 0);
     //Load in GeoJSON data
     function loaddatamap (ni_choosenYear,ni_choosenYear_op) {
     
@@ -197,10 +201,7 @@
                     .projection(projection);
                     
             
-            // Define the div for the tooltip
-            var div = d3.select("body").append("div")	
-                .attr("class", "tooltip")				
-                .style("opacity", 0);
+            
             //Bind data and create one path per GeoJSON feature
             //Each one of these Features represents a ZIP code
             //This attribute, d, contains a series of commands and parameters in the SVG Path Mini-Language.
