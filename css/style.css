@@ -2,6 +2,9 @@ body {
     font-family: 'Roboto', 'Noto', sans-serif;
     background-color:#f0f0f2;
 }
+#container {
+min-width: 1200px;
+}
 div.tooltip {	
     position: absolute;			
     text-align: center;			
