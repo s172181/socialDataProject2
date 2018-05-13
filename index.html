@@ -315,7 +315,8 @@
         //Define Y axis
         yAxis = d3.axisLeft()
                 .scale(yScale)
-                .ticks(3);
+                .ticks(4)
+                .tickSizeOuter(0);
                 
         //Define line generator
         var line = d3.line()
@@ -381,8 +382,8 @@
         x2 = d3.scaleTime().range([0, width]);
         brush = d3.brushX()
         .extent([[padding, padding-1], [width, height-padding]])
-        .on('end', highlightlines)
-        //.on("brush", highlightlines);
+        //.on('end', highlightlines)
+        .on("brush", highlightlines);
                 
         gBrush = svg2.append("g")
         .attr("class", "x brush")
