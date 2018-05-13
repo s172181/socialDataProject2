@@ -42,14 +42,26 @@
                        currentyear = year;
                    }
                    
+                  
+                   
                    //if zip conde donest have population data
                    if (typeof zipPopulation[condestring2.toString()] === "undefined") {
                     zipcodesAll[year][condestring2.toString()] = -1;
                    }
                    else {
+                        
+                            
                     incidentsPerson = parseInt(d.Group_Count)/zipPopulation[condestring2.toString()];
                     incidentsPerson2 = incidentsPerson*1000;
                     zipcodesAll[year][condestring2.toString()] = +incidentsPerson2.toFixed(2);
+                    
+                    if (condestring2.toString()=="10454") {
+                            console.log("Year "+currentyear);
+                            console.log(incidentsPerson);
+                            console.log(incidentsPerson2);
+                            console.log(zipcodesAll[year][condestring2.toString()]);
+                        }
+                        
                    }
                    //if (year=="2013")
                    //console.log("zip heere "+condestring2.toString()+" - "+zipcodesAll[year][condestring2.toString()]);
