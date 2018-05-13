@@ -36,7 +36,7 @@
         <div id="textinfo"> 
             <div class="box-content"> 
             <div id="titleStory">Incidents in New York City</div>
-            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11105 in the Queen's borough shows a drastic change: number of incidents went from 51 per 1000 habitants in 2013 to 89 per 1000 habitants in 2017. </div>
+            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 in the Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
             </div>
         </div>
         <div id="visualizations"> 
@@ -107,21 +107,13 @@
       <div id="section3" style="display:none">
         <div id="textinfo3"> 
             <div class="box-content"> 
-            <div id="titleStory3">Example of 3333</div>
-            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
+            <div id="titleStory3">Severity of incidents</div>
+            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
+            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
             </div>
         </div>
         <div id="visualizations3"> 
             <div id = "graphics3">
-                <div id="listyear3">
-<!--                    <ul>
-                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
-                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
-                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
-                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
-                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
-                    </ul>-->
-                </div>
                 <div id="maprest3">
                    <div id="mapandtime3">
                     <div id="mapgraph3" class="centergraphs">
@@ -138,7 +130,7 @@
     </div>
     
     <div style="position: relative;">    
-        <div style="position: absolute; ">
+        <div style="position: absolute;    right: 0; ">
             <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
         </div>
     </div>
@@ -207,7 +199,7 @@
         
         //console.log(target);
         d3.json("nyc-zip-code.json", function(json) {
-        	spinnerTimeline.stop();
+        	
         	spinner.stop();
             var center = d3.geoCentroid(json); // need this to center the projection correctly
         
@@ -234,13 +226,15 @@
             .enter()
             .append("path")
             .attr("d", path);
-            
+            console.log("paso1");
             loadinfomap(ni_choosenYear,ni_choosenYear_op);
 
         });
     }
     
     function loadinfomap(ni_choosenYear,ni_choosenYear_op) {
+    console.log("paso2");
+    console.log(ni_choosenYear_op);
         var nymap = svg.selectAll("path")
         .style("fill", function(d) {
                 //Get data value
@@ -255,6 +249,7 @@
                 var value = d.properties.postalCode;
                 if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1)
                     return 0.09;
+                //console.log(ni_choosenYear_op[value.toString()]);
                 return ni_choosenYear_op[value.toString()];
             })
             .on("mouseover", function(d) {		
@@ -301,7 +296,7 @@
      *This function creates the timeline
      */
      function painttimeline(incidentsMonthYear2,mindate,maxdate,incidentsMonthYear_zip2) {
-     
+       spinnerTimeline.stop();
         var width = 600;
         var height = 200;
         var padding = 50;
@@ -375,12 +370,21 @@
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
             .text("# of Incidents");
-            
+        // Label of the X axis
+        svg2.append("text")
+            .attr("x", width/2)
+            .attr("y", height-(padding/2))
+            .attr("dy", "1em")
+            .style("font-size", "11px")
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text("Month");
+
         //For brush
         var x = d3.scaleLinear().range([0, width]),
         x2 = d3.scaleTime().range([0, width]);
         brush = d3.brushX()
-        .extent([[0, padding-1], [width, height-padding]])
+        .extent([[padding, padding-1], [width, height-padding]])
         .on('end', highlightlines)
         //.on("brush", highlightlines);
                 
@@ -399,17 +403,64 @@
     * Function to 
     */
     function highlightlines() {
-        if (!d3.event.selection) return; // Ignore empty selections.
+        if (!d3.event.selection) {loaddatamap(zipcodesAll[yearsection1],totalincAll[yearsection1]);return;} // Ignore empty selections.
         var d0 = d3.event.selection.map(xScale.invert);
         var aux = new Date(d0[0]); 
         var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate();
         
         //Go through the range of dates
         //console.log(incidentsMonthYear_zip[yearsection1][datet]);
+        var time_incidents =  {};
+        var time_incidents_op =  {};
+        var zipaux = "";
+        minzone = 0, maxzone = 0;
+        var min=99999,max=0;
         for (var d = d0[0]; d <= d0[1]; d.setDate(d.getDate() + 1)) {
+            var aux = new Date(d); 
+            var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate();
+            for (var i=0;i<incidentsMonthYear_zip[yearsection1][datet].length;i++) {
+                zipaux = incidentsMonthYear_zip[yearsection1][datet][i][0]+"";
+                if (typeof time_incidents[zipaux]  === "undefined")
+                    time_incidents[zipaux] = 0;
+                time_incidents[zipaux] +=  parseInt(incidentsMonthYear_zip[yearsection1][datet][i][1]);
+                
+            }
            // console.log(new Date(d));
         }
-        //for (
+        
+        //
+        var incidentsPerson = 0, incidentsPerson2=0;
+        for(var key in time_incidents) {
+                    if (typeof zipPopulation[key] === "undefined") {
+                        time_incidents[key] = -1;
+                    }
+                    else {
+                        incidentsPerson = parseInt(time_incidents[key])/zipPopulation[key];
+                        incidentsPerson2 = incidentsPerson*1000;
+                        time_incidents[key] = +incidentsPerson2.toFixed(2);
+                        if (time_incidents[key] <= min && time_incidents[key] >= 0) {
+                                min = time_incidents[key];
+                        }
+                        if (key!="99999" && time_incidents[key] > max) {
+                                max = time_incidents[key];
+                        }
+                        
+                    }
+            }
+            
+        for(var key in time_incidents) {
+                    if (typeof zipPopulation[key] === "undefined") {
+                        time_incidents[key] = -1;
+                    }
+                    else {
+                        var normalize = (time_incidents[key] - min)/(max-min);
+                        //console.log("Year "+key+"Zip code "+subkey+" - "+normalize);
+                        
+                        time_incidents_op[key] =  normalize*2;
+                    }
+            }
+            
+        loaddatamap(time_incidents,time_incidents_op);
     } 
     
     /*
@@ -572,7 +623,9 @@
             });
         severeAreShown = true;
         var severebutton = document.getElementById("buttonsevere");
-        severebutton.innerHTML = "Back to all incidents"; // change text
+        var severetext = document.getElementById("story3");
+        severebutton.innerHTML = "Back to all incidents"; // change text of the button
+        severetext.innerHTML = "The most severe incidents (involving 90 or more firefighter units) across the entire dataset are now highlighted with dark red colors, while the rest of the map has been dimmed. Here the distribution is more clear, with the most severe incidents having occured in Western Queens and Upper, Lower and Midtown Manhattan. <br> It is possible to click on some of the highlighted regions in order to visit a link with the news story covering the particular incident."; // change text of the description 
     }
 
     function hideMostSevere(){
@@ -637,7 +690,9 @@
             d3.select(this).style('fill', "#EF6C00");
         });
         var severebutton = document.getElementById("buttonsevere");
-        severebutton.innerHTML = "Highlight the most severe incidents"; // change text
+        severebutton.innerHTML = "Highlight the most severe incidents"; // change text of the button
+        var severetext = document.getElementById("story3");
+        severetext.innerHTML = "In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset."; // change text of the description 
     }
     
     //Load in GeoJSON data
