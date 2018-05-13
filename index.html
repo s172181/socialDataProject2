@@ -36,7 +36,7 @@
         <div id="textinfo"> 
             <div class="box-content"> 
             <div id="titleStory">Incidents in New York City</div>
-            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11105 in the Queen's borough shows a drastic change: number of incidents went from 51 per 1000 habitants in 2013 to 89 per 1000 habitants in 2017. </div>
+            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 in the Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
             </div>
         </div>
         <div id="visualizations"> 
@@ -109,15 +109,6 @@
         </div>
         <div id="visualizations3"> 
             <div id = "graphics3">
-                <div id="listyear3">
-<!--                    <ul>
-                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
-                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
-                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
-                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
-                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
-                    </ul>-->
-                </div>
                 <div id="maprest3">
                    <div id="mapandtime3">
                     <div id="mapgraph3" class="centergraphs">
@@ -134,7 +125,7 @@
     </div>
     
     <div style="position: relative;">    
-        <div style="position: absolute; ">
+        <div style="position: absolute;    right: 0; ">
             <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
         </div>
     </div>
@@ -203,7 +194,7 @@
         
         //console.log(target);
         d3.json("nyc-zip-code.json", function(json) {
-        	spinnerTimeline.stop();
+        	
         	spinner.stop();
             var center = d3.geoCentroid(json); // need this to center the projection correctly
         
@@ -230,13 +221,15 @@
             .enter()
             .append("path")
             .attr("d", path);
-            
+            console.log("paso1");
             loadinfomap(ni_choosenYear,ni_choosenYear_op);
 
         });
     }
     
     function loadinfomap(ni_choosenYear,ni_choosenYear_op) {
+    console.log("paso2");
+    console.log(ni_choosenYear_op);
         var nymap = svg.selectAll("path")
         .style("fill", function(d) {
                 //Get data value
@@ -251,6 +244,7 @@
                 var value = d.properties.postalCode;
                 if (typeof ni_choosenYear[value.toString()] === "undefined" || ni_choosenYear[value.toString()]==-1)
                     return 0.09;
+                //console.log(ni_choosenYear_op[value.toString()]);
                 return ni_choosenYear_op[value.toString()];
             })
             .on("mouseover", function(d) {		
@@ -297,7 +291,7 @@
      *This function creates the timeline
      */
      function painttimeline(incidentsMonthYear2,mindate,maxdate,incidentsMonthYear_zip2) {
-     
+       spinnerTimeline.stop();
         var width = 600;
         var height = 200;
         var padding = 50;
@@ -376,7 +370,7 @@
         var x = d3.scaleLinear().range([0, width]),
         x2 = d3.scaleTime().range([0, width]);
         brush = d3.brushX()
-        .extent([[0, padding-1], [width, height-padding]])
+        .extent([[padding, padding-1], [width, height-padding]])
         .on('end', highlightlines)
         //.on("brush", highlightlines);
                 
@@ -395,17 +389,64 @@
     * Function to 
     */
     function highlightlines() {
-        if (!d3.event.selection) return; // Ignore empty selections.
+        if (!d3.event.selection) {loaddatamap(zipcodesAll[yearsection1],totalincAll[yearsection1]);return;} // Ignore empty selections.
         var d0 = d3.event.selection.map(xScale.invert);
         var aux = new Date(d0[0]); 
         var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate();
         
         //Go through the range of dates
         //console.log(incidentsMonthYear_zip[yearsection1][datet]);
+        var time_incidents =  {};
+        var time_incidents_op =  {};
+        var zipaux = "";
+        minzone = 0, maxzone = 0;
+        var min=99999,max=0;
         for (var d = d0[0]; d <= d0[1]; d.setDate(d.getDate() + 1)) {
+            var aux = new Date(d); 
+            var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate();
+            for (var i=0;i<incidentsMonthYear_zip[yearsection1][datet].length;i++) {
+                zipaux = incidentsMonthYear_zip[yearsection1][datet][i][0]+"";
+                if (typeof time_incidents[zipaux]  === "undefined")
+                    time_incidents[zipaux] = 0;
+                time_incidents[zipaux] +=  parseInt(incidentsMonthYear_zip[yearsection1][datet][i][1]);
+                
+            }
            // console.log(new Date(d));
         }
-        //for (
+        
+        //
+        var incidentsPerson = 0, incidentsPerson2=0;
+        for(var key in time_incidents) {
+                    if (typeof zipPopulation[key] === "undefined") {
+                        time_incidents[key] = -1;
+                    }
+                    else {
+                        incidentsPerson = parseInt(time_incidents[key])/zipPopulation[key];
+                        incidentsPerson2 = incidentsPerson*1000;
+                        time_incidents[key] = +incidentsPerson2.toFixed(2);
+                        if (time_incidents[key] <= min && time_incidents[key] >= 0) {
+                                min = time_incidents[key];
+                        }
+                        if (key!="99999" && time_incidents[key] > max) {
+                                max = time_incidents[key];
+                        }
+                        
+                    }
+            }
+            
+        for(var key in time_incidents) {
+                    if (typeof zipPopulation[key] === "undefined") {
+                        time_incidents[key] = -1;
+                    }
+                    else {
+                        var normalize = (time_incidents[key] - min)/(max-min);
+                        //console.log("Year "+key+"Zip code "+subkey+" - "+normalize);
+                        
+                        time_incidents_op[key] =  normalize*2;
+                    }
+            }
+            
+        loaddatamap(time_incidents,time_incidents_op);
     } 
     
     /*

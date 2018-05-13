@@ -78,8 +78,9 @@ font-weight: 500;
 
 #textinfo,#textinfo2,#textinfo3{
     width: 250px;
-    float: left;
+    float: right;
         padding: 10px;
+        margin-right:10px;
 }
 #visualizations, #visualizations2, #visualizations3 {
     overflow: hidden
