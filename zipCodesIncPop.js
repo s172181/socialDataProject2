@@ -42,14 +42,26 @@
                        currentyear = year;
                    }
                    
+                  
+                   
                    //if zip conde donest have population data
                    if (typeof zipPopulation[condestring2.toString()] === "undefined") {
                     zipcodesAll[year][condestring2.toString()] = -1;
                    }
                    else {
+                        
+                            
                     incidentsPerson = parseInt(d.Group_Count)/zipPopulation[condestring2.toString()];
                     incidentsPerson2 = incidentsPerson*1000;
                     zipcodesAll[year][condestring2.toString()] = +incidentsPerson2.toFixed(2);
+                    
+                    if (condestring2.toString()=="10454") {
+                            console.log("Year "+currentyear);
+                            console.log(incidentsPerson);
+                            console.log(incidentsPerson2);
+                            console.log(zipcodesAll[year][condestring2.toString()]);
+                        }
+                        
                    }
                    //if (year=="2013")
                    //console.log("zip heere "+condestring2.toString()+" - "+zipcodesAll[year][condestring2.toString()]);
@@ -78,6 +90,7 @@
     })
     
     var incidentsMonthYear = {};
+    var incidentsMonthYear_zip = {};
     var mindate = {};
     var maxdate = {};
     /*
@@ -90,73 +103,87 @@
                     var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate(); 
                     return {
                         //Make a new Date object for each year + month
-                        IM_INCIDENT_KEY: d.IM_INCIDENT_KEY,
                         INCIDENT_DATE_TIME: new Date(datet),
-                        ZIP_CODE: d.ZIP_CODE
+                        ZIP_CODE: d.ZIP_CODE,
+                        Group_Count: d.Group_Count
                     };
                 }
-            d3.csv("incidents_year/allincidents2013.csv", rowConverter, function(data){
+            d3.csv("incidents_year/incidentsGroup2013.csv", rowConverter, function(data){
                /* data.map(function(d){
                 });*/
                incidentsMonthYear["2013"] = {};
+               incidentsMonthYear_zip["2013"] = {};
                //Data for the time line, group by date and count 
-                incidentsMonthYear["2013"] = d3.nest()
+                /*incidentsMonthYear["2013"] = d3.nest()
                 .key(function(d) { return d.INCIDENT_DATE_TIME })
                 .rollup(function(v) { return v.length })
+                .entries(data);*/
+                
+                incidentsMonthYear["2013"]  = d3.nest()
+                .key(function(d) { return d.INCIDENT_DATE_TIME })
+                .rollup(function(v) {return d3.sum(v, function(d) { return d.Group_Count; })})
                 .entries(data);
+                
+                data.map(function(d){
+                    var aux = new Date(d.INCIDENT_DATE_TIME);
+                    var datet = aux.getFullYear()+'/'+(aux.getMonth()+1)+'/'+aux.getDate(); 
+                    if (typeof incidentsMonthYear_zip["2013"][datet] === "undefined" )
+                        incidentsMonthYear_zip["2013"][datet] = [];
+                    incidentsMonthYear_zip["2013"][datet].push([d.ZIP_CODE,d.Group_Count]);
+                });
                 
                 mindate["2013"] = d3.min(data, function(d) { return d.INCIDENT_DATE_TIME; });
                 maxdate["2013"] = d3.max(data, function(d) { return d.INCIDENT_DATE_TIME; });
                 
-                painttimeline(incidentsMonthYear["2013"],mindate["2013"],maxdate["2013"]);
+                painttimeline(incidentsMonthYear["2013"],mindate["2013"],maxdate["2013"],incidentsMonthYear_zip["2013"]);
             });
-            d3.csv("incidents_year/allincidents2014.csv", rowConverter, function(data){
+            d3.csv("incidents_year/incidentsGroup2014.csv", rowConverter, function(data){
                /* data.map(function(d){
                 });*/
                incidentsMonthYear["2014"] = {};
                //Data for the time line, group by date and count 
-                incidentsMonthYear["2014"] = d3.nest()
+                incidentsMonthYear["2014"]  = d3.nest()
                 .key(function(d) { return d.INCIDENT_DATE_TIME })
-                .rollup(function(v) { return v.length })
+                .rollup(function(v) {return d3.sum(v, function(d) { return d.Group_Count; })})
                 .entries(data);
                 
                 mindate["2014"] = d3.min(data, function(d) { return d.INCIDENT_DATE_TIME; });
                 maxdate["2014"] = d3.max(data, function(d) { return d.INCIDENT_DATE_TIME; });
             });
-            d3.csv("incidents_year/allincidents2015.csv", rowConverter, function(data){
+            d3.csv("incidents_year/incidentsGroup2015.csv", rowConverter, function(data){
                /* data.map(function(d){
                 });*/
                incidentsMonthYear["2015"] = {};
                //Data for the time line, group by date and count 
-                incidentsMonthYear["2015"] = d3.nest()
+                incidentsMonthYear["2015"]  = d3.nest()
                 .key(function(d) { return d.INCIDENT_DATE_TIME })
-                .rollup(function(v) { return v.length })
+                .rollup(function(v) {return d3.sum(v, function(d) { return d.Group_Count; })})
                 .entries(data);
                 
                 mindate["2015"] = d3.min(data, function(d) { return d.INCIDENT_DATE_TIME; });
                 maxdate["2015"] = d3.max(data, function(d) { return d.INCIDENT_DATE_TIME; });
             });
-            d3.csv("incidents_year/allincidents2016.csv", rowConverter, function(data){
+            d3.csv("incidents_year/incidentsGroup2016.csv", rowConverter, function(data){
                /* data.map(function(d){
                 });*/
                incidentsMonthYear["2016"] = {};
                //Data for the time line, group by date and count 
-                incidentsMonthYear["2016"] = d3.nest()
+                incidentsMonthYear["2016"]  = d3.nest()
                 .key(function(d) { return d.INCIDENT_DATE_TIME })
-                .rollup(function(v) { return v.length })
+                .rollup(function(v) {return d3.sum(v, function(d) { return d.Group_Count; })})
                 .entries(data);
                 
                 mindate["2016"] = d3.min(data, function(d) { return d.INCIDENT_DATE_TIME; });
                 maxdate["2016"] = d3.max(data, function(d) { return d.INCIDENT_DATE_TIME; });
             });
-             d3.csv("incidents_year/allincidents2017.csv", rowConverter, function(data){
+             d3.csv("incidents_year/incidentsGroup2017.csv", rowConverter, function(data){
                /* data.map(function(d){
                 });*/
                incidentsMonthYear["2017"] = {};
                //Data for the time line, group by date and count 
-                incidentsMonthYear["2017"] = d3.nest()
+                incidentsMonthYear["2017"]  = d3.nest()
                 .key(function(d) { return d.INCIDENT_DATE_TIME })
-                .rollup(function(v) { return v.length })
+                .rollup(function(v) {return d3.sum(v, function(d) { return d.Group_Count; })})
                 .entries(data);
                 
                 mindate["2017"] = d3.min(data, function(d) { return d.INCIDENT_DATE_TIME; });
@@ -170,7 +197,38 @@
     function changetimeline(year) {
         $(".listyears").removeClass("selected");
         $("#l"+year).addClass("selected");
+        yearsection1 = year;
         loadinfomap(zipcodesAll[year],totalincAll[year]);
         painttimeline(incidentsMonthYear[year],mindate[year],maxdate[year]);
     }
+    
+    /*
+     * section 3
+     * 
+     */
+    var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"); //convert strings to dates in Date format
+    var maxunitsdata;
+    var unitsNumbers = function(row){
+                                    return{
+                                            INCIDENT_DATE_TIME: parseDate(row.INCIDENT_DATE_TIME),
+                                            ZIP_CODE: row.ZIP_CODE,
+                                            UNITS_ONSCENE: +row.UNITS_ONSCENE,
+                                            URL: row.URL
+                                    }	
+                            }
+    d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
+        console.log("paso");
+            maxunitsdata = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+                    loadinfomap3();
+        });
+    
+    // Load the csv with the most severe incidents
+    var severestdata;
+    d3.csv("full_csv_year_files/biggestincidentsalltime.csv", unitsNumbers, function(data){
+        severestdata = data; // much simpler here as all data is already in csv
+    })
     
