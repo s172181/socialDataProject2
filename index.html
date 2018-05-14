@@ -18,7 +18,10 @@
         <div class="navbar-header">
             <div class="tabbable">
             <ul id="tabsContainer" class="nav nav-pills">
-                <li id="lsection1" class="active">
+                <li id="lsection0" class="active">
+                    <a onclick="changesection(0)" style="cursor:pointer">INTRODUCTION</a>
+                </li>
+                <li id="lsection1">
                     <a onclick="changesection(1)" style="cursor:pointer">INCIDENTS PER YEAR</a>
                 </li>
                 <li id="lsection2">
@@ -32,7 +35,29 @@
     </nav>
 
     <div id="container">
-       <div id="section1">
+        <div id="section0" >
+        <div id="visualizations0"> 
+            <div id = "graphics0">
+                <div id="maprest0">
+                   <div id="mapandtime0">
+                    <div id="mapgraph0" class="centergraphs">
+                        
+                    </div>
+                   </div>
+            </div>
+        </div>
+        
+        </div>
+        <div id="textinfo3" style="    width: 500px;margin-left: -300px;margin-top: 120px;"> 
+            <div class="box-content"> 
+            <div id="titleStory3">Incidents in New York City</div>
+            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
+            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
+            </div>
+        </div>
+    </div>
+        
+       <div id="section1" style="display:none">
         <div id="visualizations"> 
             <div id = "graphics">
                 <div id="listyear">
@@ -90,6 +115,13 @@
                     <h4 class="progress-label" id="hm_legend4"  style="width: 50%;">Number</h4>
                 </div>
             </div>
+            </div>
+            <div class="box-content" style="margin-top: 70px;"> 
+            <div id="titleStory"></div>
+            <div>Brush timeline to update brightness of map corresponding to dates<br>
+            - 2013: July shows the highest number of incidents and September displays less numbre of incidents for non-center areas.<br>
+            - 2014 - 2015 - 2016: shows that January and February had the highest number of incidents. </div>
+            - 2017:  </div>
             </div>
         </div>
       </div>
@@ -174,10 +206,16 @@
     <script src="zipCodesIncPop.js"></script>
     <script type="text/javascript"> 
     //Width and height
-    var previoussection = 1;
+    var previoussection = 0;
     var w = 600;
     var h = 500;     
     var yearsection1 = "2013";
+    
+    //Intro
+    var svg0 = d3.select("#mapgraph0")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
     
     //For section 1
     var svg = d3.select("#mapgraph")
@@ -256,6 +294,15 @@
             .enter()
             .append("path")
             .attr("d", path);
+            
+            var nymap = svg0.selectAll("path")
+            .data(json.features)
+            .enter()
+            .append("path")
+            .attr("d", path).style("fill", function(d) {
+                //Get data value
+                return "#535353";
+            })
             
             var nymap2 = svg3.selectAll("path")
             .data(json.features)
@@ -341,6 +388,14 @@
                 }
             });
             
+//             //
+//             var brush2 = d3.brush()
+//                                 .on("brush", brushzipcodes)
+//                                 .on("end", changebarchar); 
+// 
+//                 svg.append("g")
+//                     .call(brush2);
+//             
             //Change values
             
             $("#listofvalueshm").css("display","block");
@@ -366,6 +421,13 @@
         
     }
     
+    function brushzipcodes() {
+    
+    }
+    
+    function changebarchar() {
+    
+    }
      
      var formatTime = d3.timeFormat("%m");
      /*
@@ -862,7 +924,11 @@
      
      
      function changesection(section) {
-     
+        if (previoussection==section) return;
+        if (previoussection==0) {
+            d3.select("#mapgraph").select("svg").remove();
+            d3.select("#timeline").select("svg").remove();
+        }
         if (previoussection==1) {
             d3.select("#mapgraph").select("svg").remove();
             d3.select("#timeline").select("svg").remove();
@@ -872,12 +938,12 @@
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
+            changetimeline("2013");
             loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
             painttimeline(incidentsMonthYear["2013"],mindate["2013"],maxdate["2013"]);
         }
         $("#section"+previoussection).css("display","none");
         $("#section"+section).css("display","block");
-        console.log("change section "+section);
         $("#lsection"+previoussection).removeClass("active");
         $("#lsection"+section).addClass("active");
         previoussection = section;
