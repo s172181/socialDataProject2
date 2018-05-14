@@ -9,11 +9,11 @@
                 codestring = d.zip;
                 zipPopulation[codestring.toString()] = parseInt(d.population_2015);  
             });
+            loadsection1() ;
     })
 
     //read number of zip codes
     //Zip codes and number of incidents
-    var zipcodesaux = [];
     var currentyear = "2013";
     var zipcodesAll = {};
     var totalincAll = {};
@@ -23,6 +23,7 @@
     /*
      * This creates an array for every year containing the scale, distribution of incidents per zip code, per year
      */
+    function loadsection1() {
     d3.csv("incidents_year/zipcodesAll.csv", function(data){
             indexincidents = 0;
             zipcodesAll[currentyear] = {};
@@ -78,6 +79,7 @@
             loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
             loadtimeline2013();
     })
+    }
     
     var incidentsMonthYear = {};
     var incidentsMonthYear_zip = {};
