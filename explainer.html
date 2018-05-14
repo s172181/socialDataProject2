@@ -23,7 +23,7 @@
             <ul class="bullet">
             <li>Write about your choices in data cleaning and preprocessing</li>
             <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicating the number of incidents for each zip code area.<br>
-In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To adapt the number of incidents to the opacity (between 0 and 1) we used feature scaling to rescale them. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
+In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To adapt the number of incidents to the opacity (between 0 and 1) we used feature scaling to rescale them. Additionally, 5 zones were not in the population dataset, because of this we colored these zip areas in gray. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
             <br>
             Section "Type of incident" uses d3 to find the list of unique incident types. The list is then populated on the right side of the page and serves as a filter for incident types that will be displayed in the map.
             <br>
