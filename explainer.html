@@ -25,13 +25,19 @@
             <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicating the number of incidents for each zip code area.<br>
 In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To adapt the number of incidents to the opacity (between 0 and 1) we used feature scaling to rescale them. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
             <br>
+            Section "Type of incident" uses d3 to find the list of unique incident types. The list is then populated on the right side of the page and serves as a filter for incident types that will be displayed in the map.
+            <br>
             The csv created in Pandas in used in this project are:<br>
             <ul>
             <li>"zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.</li>
             <li>"incidents_year/.csv" : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</li>
+
             <li>"NYC_zip_codes_population_2015.csv": contains information on the population per ZIP code in NYC for 2015, used as the base for normalization for the first (incident count) map displayed in the visualization.</li>
             <li>"full_csv_year_files/2013-17full.csv": contains the columns ZIP_CODE, INCIDENT_DATE_TIME, UNITS_ON_SCENE from the initial dataset, separated by years for faster processing.</li>
             <li>"biggestincidentsalltime.csv": contains the same columns as the csv above plus URLs to the corresponding news story for the "most severe incidents" from the "severity map" part of the visualization.</li>
+
+            <li>"incident_type_all_years.csv" : contains data grouped by year, zip code area, and incident type. The last attribute is the total number of recorded incidents (per group).</li>
+
             </ul>
             </p>
             <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.</li>
@@ -40,6 +46,8 @@ In the section "Incidents per year", to display a real comparison between zones,
             <li>ZIP_CODE: The postal zip code where the incident took place</li>
             <li>INCIDENT_DATE_TIME: The date and time that the incident was logged. This is used for the division of number of incidents per year and for the timeline.</li>
             <li>UNITS_ONSCENE: Total number of units that arrived on scene. This is used for the severity section.</li>
+            <li>INCIDENT_TYPE_NUM: Number of type of incident (serves as id of incident type). This is used as main filtering parameter in the type of incident section.</li>
+            <li>INCIDENT_TYPE_DESC: Description of the type of incident. This is used for the type of incident section.</li>
             </ul>
             </p>
             </ul>
@@ -71,13 +79,14 @@ In the section "Incidents per year", to display a real comparison between zones,
 <ul>
 <li>Hover Highlighting. In every tab, there is some information given to the user when hovering above the map.</li>
 <li>Filtering/Selection. Some parts of the visualization allow the user to filter the map (using the brush) to gain deeper insights into the data.</li>
-<li>Explicit Instructions. in some parts, we inform the user of their options directly (such as by having a text on the button or next to the brushable timeline) in order to make sure this part of visualiztion is noticed and interacted with.</li>
+<li>Explicit Instructions. In some parts, we inform the user of their options directly (such as by having a text on the button or next to the brushable timeline) in order to make sure this part of visualiztion is noticed and interacted with.</li>
 </ul>
 </li>
 <li>Messaging:
 <ul>
 <li>Captions/Headlines. We have headlines for parts of the visualization to make it clear what the part is supposed to represent.</li>
 <li>Annotations: Every tab of the visualization includes a text briefly describing what is currently displayed in the page. Some of them provide succinct observations on the patterns in data.</li>
+<li>Accompanying Article: We link some of the most severe incidents with corresponding articles that the user can refer to for details about the incident.</li>
 <li>Clear Introductory Text: We have an introductory tab in order to let the reader know what the idea behind the visualization is.</li>
 </ul>
 </li>

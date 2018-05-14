@@ -143,6 +143,7 @@ function getSortedKeys(obj) {
 //      console.log('year: ', year)
 //      console.log("res: ", dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt("10314") && parseInt(ab.INCIDENT_TYPE_NUM) == parseInt(id)) );
 
+      var maxValueToi = d3.max(dataset20, function(d){ return parseInt(d.INCIDENT_COUNT)});
       var typesScale = d3.scaleLinear()
           .domain([0, d3.max(dataset20, function(d){ return parseInt(d.INCIDENT_COUNT); })])
           .range([0.02,1]);
@@ -279,6 +280,9 @@ function getSortedKeys(obj) {
 
 
         });
+
+
+            d3.select("#toi_legend1").text(maxValueToi);
       }
 
       function changeNYMap20(dataset20, id, year) {
@@ -376,5 +380,7 @@ function getSortedKeys(obj) {
                 d3.select(this).style('fill', "#EF6C00");
             }
             });
+          
+          d3.select("#toi_legend1").text(maxValueToi);
       }
     }
