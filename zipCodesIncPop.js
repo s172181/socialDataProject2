@@ -75,7 +75,7 @@
                         var normalize = (zipcodesAll[key][subkey] - minV[key])/(maxV[key]-minV[key]);
                         //console.log("Year "+key+"Zip code "+subkey+" - "+normalize);
                         
-                        totalincAll[key][subkey] =  normalize*2;
+                        totalincAll[key][subkey] =  normalize*1.5;
                     }
             }
             //console.log(

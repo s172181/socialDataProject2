@@ -61,6 +61,35 @@
             <div id="titleStory">Incidents in New York City</div>
             <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 on the east of Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
             </div>
+            <div class="box-content2"> 
+            <div id="listofvalueshm" style="display:none">
+                <h5 style="margin-bottom: 20px;text-align:left">Incidents per 1000 residents</h5>
+                <div id="hm_firstvalue" class="hm_legends">
+                    <div class="progress" style="width: 20px;float:left;">
+                        <div id="hm_color1"  class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>        
+                <h4 class="progress-label" id="hm_legend1" style="width: 50%;">Number</h4>
+                </div>
+                <div id="hm_firstvalue2" class="hm_legends" style="clear:both">
+                    <div class="progress" style="width: 20px;float:left;">
+                        <div id="hm_color2" class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>    
+                    <h4 class="progress-label" id="hm_legend2"  style="width: 50%;">Number</h4>
+                </div>
+                <div id="hm_firstvalue3" class="hm_legends" style="clear:both">
+                    <div class="progress" style="width: 20px;float:left;">
+                        <div id="hm_color3" class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>  
+                    <h4 class="progress-label" id="hm_legend3"  style="width: 50%;">Number</h4>
+                </div>
+                <div id="hm_firstvalue4" class="hm_legends" style="clear:both">
+                    <div class="progress" style="width: 20px;float:left;">
+                        <div id="hm_color4" class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div> 
+                    <h4 class="progress-label" id="hm_legend4"  style="width: 50%;">Number</h4>
+                </div>
+            </div>
+            </div>
         </div>
       </div>
       <div id="section2" style="display:none">
@@ -223,15 +252,31 @@
             .enter()
             .append("path")
             .attr("d", path);
-            console.log("paso1");
             loadinfomap(ni_choosenYear,ni_choosenYear_op);
 
         });
     }
     
+    function sortProperties(obj) {
+    // convert object into array
+            var sortable=[];
+            for(var key in obj)
+                    if(obj.hasOwnProperty(key))
+                            sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+            
+            // sort items by value
+            sortable.sort(function(a, b)
+            {
+            //console.log(parseFloat()(a[1])+" "+parseFloat()(b[1])+" "+(parseFloat()(a[1])-parseFloat()(b[1])));
+            return b[1]-a[1]; // compare numbers
+            });
+            return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+    }
+        
     function loadinfomap(ni_choosenYear,ni_choosenYear_op) {
-    console.log("paso2");
-    console.log(ni_choosenYear_op);
+    
+        
+    
         var nymap = svg.selectAll("path")
         .style("fill", function(d) {
                 //Get data value
@@ -261,7 +306,7 @@
                 else 
                     nIncPer = ni_choosenYear[value.toString()];
                 div.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
-                            +nIncPer+"<br>Per 1000 habitants")	
+                            +nIncPer+"<br>Per 1000 residents")	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             // this.style("fill", "#909090");
@@ -285,6 +330,30 @@
                     d3.select(this).style('fill', "#EF6C00");
                 }
             });
+            
+            //Change values
+            
+            $("#listofvalueshm").css("display","block");
+            var ni_choosenYear_op2=sortProperties(ni_choosenYear_op);
+            $("#hm_color1").css("background-color","#EF6C00");
+            $("#hm_color1").css("opacity",ni_choosenYear_op2[0][1]);
+            $("#hm_legend1").text(parseInt(ni_choosenYear[ni_choosenYear_op2[0][0].toString()]));
+            
+            $("#hm_color2").css("background-color","#EF6C00");
+            $("#hm_color2").css("opacity",ni_choosenYear_op2[40][1]);
+            $("#hm_legend2").text(parseInt(ni_choosenYear[ni_choosenYear_op2[40][0].toString()]));
+            
+            $("#hm_color3").css("background-color","#EF6C00");
+            $("#hm_color3").css("opacity",ni_choosenYear_op2[80][1]);
+            $("#hm_legend3").text(parseInt(ni_choosenYear[ni_choosenYear_op2[80][0].toString()]));
+            
+            $("#hm_color4").css("background-color","#EF6C00");
+            $("#hm_color4").css("opacity",ni_choosenYear_op2[120][1]);
+            $("#hm_legend4").text(parseInt(ni_choosenYear[ni_choosenYear_op2[120][0].toString()]));
+            
+            /*$("hm_color1").style("background-color","#EF6C00");
+            $("hm_color1").style("opacity",ni_choosenYear_op2[0]);*/
+        
     }
     
      
@@ -759,6 +828,7 @@
      
      
      function changesection(section) {
+     
         if (previoussection==1) {
             d3.select("#mapgraph").select("svg").remove();
             d3.select("#timeline").select("svg").remove();
@@ -773,6 +843,7 @@
         }
         $("#section"+previoussection).css("display","none");
         $("#section"+section).css("display","block");
+        console.log("change section "+section);
         $("#lsection"+previoussection).removeClass("active");
         $("#lsection"+section).addClass("active");
         previoussection = section;
