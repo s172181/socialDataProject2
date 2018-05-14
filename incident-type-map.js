@@ -40,7 +40,6 @@ function getSortedKeys(obj) {
             .entries(data);
         // Load list of incident types
         loadTypesData();
-//        console.log('max: ', d3.max(allTypesData, function(d) { return d.INCIDENT_COUNT; }));
         loadOneIncidentData();
         displayOneTypeData(0, 0);
     })
@@ -74,7 +73,7 @@ function getSortedKeys(obj) {
     function loadOneIncidentData(){
       var map2 = d3.select("#incidentslist")
       //Create bars
-      // console.log(listTypesData[0]);
+      
       map2.selectAll("a")
           .data(listTypesData)
           .enter()
@@ -94,8 +93,6 @@ function getSortedKeys(obj) {
         var ss = "#l" + year;
         d3.select("#listyear2").select(ss).attr("class", "listyears selected");
       }
-//      console.log("id: ", id, "year: ", year);
-//      console.log(allTypesData);
       loaddatamap20(id, year);
 
     }
@@ -131,7 +128,6 @@ function getSortedKeys(obj) {
 
     var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"); //convert strings to dates in Date format
 
-    console.log(listTypesData);
     // d3.csv("full_csv_year_files/biggestincidentsalltime.csv", unitsNumbers, function(data){
     //  severestdata = data; // much simpler here as all data is already in csv
     // })
@@ -147,8 +143,6 @@ function getSortedKeys(obj) {
 //      console.log('year: ', year)
 //      console.log("res: ", dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt("10314") && parseInt(ab.INCIDENT_TYPE_NUM) == parseInt(id)) );
 
-      console.log(dataset20[0].INCIDENT_COUNT);
-      console.log(d3.max(dataset20, function(d){ return parseInt(d.INCIDENT_COUNT); }));
       var typesScale = d3.scaleLinear()
           .domain([0, d3.max(dataset20, function(d){ return parseInt(d.INCIDENT_COUNT); })])
           .range([0,1]);
@@ -186,7 +180,6 @@ function getSortedKeys(obj) {
           .style("fill", "#EF6C00")
           .style("opacity",function(d) {
                  //Get data value
-                 //console.log(dataset20[0].INCIDENT_COUNT);
                  var value = d.properties.postalCode;
                  //console.log('val: ', value, ' , dataset20: ', dataset20.find(x => parseInt(x.ZIP_CODE) === value));
                  try{
@@ -218,7 +211,7 @@ function getSortedKeys(obj) {
               catch (e){
                 //zipcode is not in maxunitsdata - it's fine, just go on
             }
-            div .html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
+            div .html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>No. of incidents</h5>"
               +units)   
             .style("left", (d3.event.pageX) + "px")     
             .style("top", (d3.event.pageY - 28) + "px");    
@@ -249,7 +242,6 @@ function getSortedKeys(obj) {
             });
 
 
-//          console.log(dataset20);
 
 
 
@@ -261,16 +253,13 @@ function getSortedKeys(obj) {
         nymap20.style("fill", "#EF6C00")
           .style("opacity",function(d) {
                  //Get data value
-                 //console.log(dataset20[0].INCIDENT_COUNT);
                  var value = d.properties.postalCode;
-                 //console.log('val: ', value, ' , dataset20: ', dataset20.find(x => parseInt(x.ZIP_CODE) === value));
                  try{
                   var units = 0;
                   if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefind")
                     units = 0;
                   else
                     units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
-//                  console.log('val: ', value, ' , units: ', dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value) && parseInt(ab.INCIDENT_TYPE_NUM) == parseInt(id)));
                 }
                 catch (e){
                   //zipcode is not in the maxunitsdata for the currently selected dataset
