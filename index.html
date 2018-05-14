@@ -316,7 +316,8 @@
         //Define Y axis
         yAxis = d3.axisLeft()
                 .scale(yScale)
-                .ticks(3);
+                .ticks(4)
+                .tickSizeOuter(0);
                 
         //Define line generator
         var line = d3.line()
@@ -367,7 +368,16 @@
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
             .text("# of Incidents");
-            
+        // Label of the X axis
+        svg2.append("text")
+            .attr("x", width/2)
+            .attr("y", height-(padding/2))
+            .attr("dy", "1em")
+            .style("font-size", "11px")
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text("Month");
+
         //For brush
         var x = d3.scaleLinear().range([0, width]),
         x2 = d3.scaleTime().range([0, width]);
