@@ -208,8 +208,8 @@ border-bottom-style: solid;
     overflow: hidden;
 }
 #incidentslist {
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 20px;
     overflow-y: scroll;
-    height: 500px;
+    height: 270px;
 }
