@@ -145,7 +145,7 @@ function getSortedKeys(obj) {
 
       var typesScale = d3.scaleLinear()
           .domain([0, d3.max(dataset20, function(d){ return parseInt(d.INCIDENT_COUNT); })])
-          .range([0,1]);
+          .range([0.02,1]);
 
       nymap20 = svg2.selectAll("path");
       if (nymap20.empty()) {
@@ -177,14 +177,37 @@ function getSortedKeys(obj) {
           .enter()
           .append("path")
           .attr("d", path)
-          .style("fill", "#EF6C00")
+          .style("fill", function(d) {
+                var value = d.properties.postalCode;
+                 //console.log('val: ', value, ' , dataset20: ', dataset20.find(x => parseInt(x.ZIP_CODE) === value));
+                 try{
+                  var units = 0;
+                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) == undefined)
+                    units = 0;
+                  else
+                    units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+//                  console.log('val: ', value, ' , units: ', dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value) && parseInt(ab.INCIDENT_TYPE_NUM) == parseInt(id)));
+                }
+                catch (e){
+                  //zipcode is not in the maxunitsdata for the currently selected dataset
+                  //so no info available, set units to 0 to have white colored zone
+                  units = 0;
+                 }
+                // return (units/100000)*60;
+                if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                    return "#000000";
+                }
+                else {
+                    return "#EF6C00";
+                }
+            })
           .style("opacity",function(d) {
                  //Get data value
                  var value = d.properties.postalCode;
                  //console.log('val: ', value, ' , dataset20: ', dataset20.find(x => parseInt(x.ZIP_CODE) === value));
                  try{
                   var units = 0;
-                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefind")
+                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) == undefined)
                     units = 0;
                   else
                     units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
@@ -196,7 +219,12 @@ function getSortedKeys(obj) {
                     units = 0;
                    }
                 // return (units/100000)*60;
-                return typesScale(units);
+                if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                    return 0.09;
+                }
+                else {
+                    return typesScale(units);
+                }
               })
           .on("mouseover", function(d) {        
             div.transition()        
@@ -205,14 +233,16 @@ function getSortedKeys(obj) {
               //Here we add what we what to put on the tip
               var value = d.properties.postalCode;
               var units;
+              var disp = "N/A";
               try{
                 units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+                disp = units;
               }
               catch (e){
                 //zipcode is not in maxunitsdata - it's fine, just go on
             }
             div .html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>No. of incidents</h5>"
-              +units)   
+              +units)
             .style("left", (d3.event.pageX) + "px")     
             .style("top", (d3.event.pageY - 28) + "px");    
              // this.style("fill", "#909090");
@@ -228,17 +258,19 @@ function getSortedKeys(obj) {
               var currentState = this;
               var value = d.properties.postalCode;
               var units;
-              try{
-                units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+              if ( typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) !== "undefined") {
+                  units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
               }
-              catch (e){
-                //zipcode is not in maxunitsdata - set units to 0 to have white colored zone
-                units = 0;
-            }
             d3.select(this).style('stroke', "none");
               // d3.select(this).style('opacity',  (units/10000)*120);
-              d3.select(this).style('opacity', typesScale(units));
-              d3.select(this).style('fill', "#EF6C00");
+            if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                d3.select(this).style('opacity',  0.09);
+                d3.select(this).style('fill', "#000000");
+            }
+            else {
+                d3.select(this).style('opacity',  typesScale(units));
+                d3.select(this).style('fill', "#EF6C00");
+            }
             });
 
 
@@ -250,13 +282,36 @@ function getSortedKeys(obj) {
       }
 
       function changeNYMap20(dataset20, id, year) {
-        nymap20.style("fill", "#EF6C00")
+        nymap20.style("fill", function(d) {
+                var value = d.properties.postalCode;
+                 //console.log('val: ', value, ' , dataset20: ', dataset20.find(x => parseInt(x.ZIP_CODE) === value));
+                 try{
+                  var units = 0;
+                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) == undefined)
+                    units = 0;
+                  else
+                    units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+//                  console.log('val: ', value, ' , units: ', dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value) && parseInt(ab.INCIDENT_TYPE_NUM) == parseInt(id)));
+                }
+                catch (e){
+                  //zipcode is not in the maxunitsdata for the currently selected dataset
+                  //so no info available, set units to 0 to have white colored zone
+                  units = 0;
+                 }
+                // return (units/100000)*60;
+                if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                    return "#000000";
+                }
+                else {
+                    return "#EF6C00";
+                }
+            })
           .style("opacity",function(d) {
                  //Get data value
                  var value = d.properties.postalCode;
                  try{
                   var units = 0;
-                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefind")
+                  if (dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) == undefined)
                     units = 0;
                   else
                     units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
@@ -267,7 +322,13 @@ function getSortedKeys(obj) {
                   units = 0;
                  }
                 // return (units/100000)*60;
-                return typesScale(units);
+                if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                    return 0.09;
+                }
+                else {
+                    return typesScale(units);
+                }
+                // return typesScale(units);
               })
           .on("mouseover", function(d) {    
             div.transition()    
@@ -276,14 +337,16 @@ function getSortedKeys(obj) {
               //Here we add what we what to put on the tip
               var value = d.properties.postalCode;
               var units;
+              var disp = "N/A";
               try{
                 units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+                disp = units;
               }
               catch (e){
               //zipcode is not in maxunitsdata - it's fine, just go on
             }
             div .html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
-              +units) 
+              +disp) 
             .style("left", (d3.event.pageX) + "px")   
             .style("top", (d3.event.pageY - 28) + "px");  
              // this.style("fill", "#909090");
@@ -298,18 +361,20 @@ function getSortedKeys(obj) {
               .style("opacity", 0); 
               var currentState = this;
               var value = d.properties.postalCode;
-              var units;
-              try{
-                units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
+              var units = 0;
+              if ( typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) !== "undefined") {
+                  units = dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)).INCIDENT_COUNT;
               }
-              catch (e){
-              //zipcode is not in maxunitsdata - set units to 0 to have white colored zone
-              units = 0;
-            }
             d3.select(this).style('stroke', "none");
-              // d3.select(this).style('opacity',  (units/10000)*120);
-              d3.select(this).style('opacity', typesScale(units));
-              d3.select(this).style('fill', "#EF6C00");
+            // d3.select(this).style('opacity',  (units/10000)*120);
+            if (typeof dataset20.find(ab => parseInt(ab.ZIP_CODE) == parseInt(value)) === "undefined") {
+                d3.select(this).style('opacity',  0.09);
+                d3.select(this).style('fill', "#000000");
+            }
+            else {
+                d3.select(this).style('opacity',  typesScale(units));
+                d3.select(this).style('fill', "#EF6C00");
+            }
             });
       }
     }
