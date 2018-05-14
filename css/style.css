@@ -6,7 +6,7 @@ body {
 min-width: 1200px;
 max-width: 1200px;
 }
-#section1,#section2,#section3 {
+#section1,#section2,#section3,#section0 {
 /*width: 1000px;
 		height:200px;
 		margin: 0 auto;*/
@@ -76,8 +76,8 @@ font-family: 'Roboto', 'Noto', sans-serif;
 #tabsContainer {
    position: absolute;
    bottom:-1px;
-   left: 33%;
-    transform: translatex(-25%);
+   left: 15%;
+    transform: translatex(-6%);
 }
 #titleStory, #titleStory2,#titleStory3 {
 font-size: 25px;
@@ -95,13 +95,13 @@ font-weight: 500;
         padding: 10px;
         /*margin-right:250px;*/
 }
-#visualizations, #visualizations2, #visualizations3 {
+#visualizations0,#visualizations, #visualizations2, #visualizations3 {
 display: inline-block;
     vertical-align: top;
 /*width: 700px; float:left;*/
     overflow: hidden
 }
-#listyear, #listyear2, #listyear3{
+#listyear0,#listyear, #listyear2, #listyear3{
     /*width: 150px;
     float: left;
     text-align: right;
@@ -110,7 +110,7 @@ display: inline-block;
     padding-top:120px;
     display: inline-block; vertical-align: top;
 }
-#maprest,#maprest2,#maprest3 {
+#maprest0,#maprest,#maprest2,#maprest3 {
 display: inline-block;
     vertical-align: top;
     overflow: hidden
@@ -199,7 +199,7 @@ border-bottom-style: solid;
 /*
  * *Incident types
  * */
-#mapandtime, #mapandtime2{
+#mapandtime0,#mapandtime, #mapandtime2{
     float: left;
         padding: 10px;
 }
