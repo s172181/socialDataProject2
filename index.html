@@ -48,11 +48,12 @@
         </div>
         
         </div>
-        <div id="textinfo3" style="    width: 500px;margin-left: -300px;margin-top: 120px;"> 
+        <div id="textinfo0" style="     display: inline-block;   width: 500px;margin-left: -300px;margin-top: 120px;"> 
             <div class="box-content"> 
-            <div id="titleStory3">Incidents in New York City</div>
-            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
-            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
+            <div id="titleStory0"><h4>Incidents Handled by Fire Department of New York City</h4></div>
+            <div id="story0"> New York is a large city with lots of things happenning every single day. Some of these things are incidents. Normally, incidents are recorded to help understand causes and prevent future incidents.<br><br>In this project
+            we have made an attempt at visualizing the incident data gathered by the Fire Department of New York City. This data includes
+            not only fires, but also many other types of incidents, such as gas leaks, explosions, elevator stalls, and more.<br><br> Different data stats, such as number of incidents, their types, and severity are displayed on the city map and available for exploration in the corresponding tabs.</div>
             </div>
         </div>
     </div>
@@ -84,7 +85,7 @@
         <div id="textinfo"> 
             <div class="box-content"> 
             <div id="titleStory">Incidents in New York City</div>
-            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 on the east of Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
+            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 on the east of Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017.</div>
             </div>
             <div class="box-content2"> 
             <div id="listofvalueshm" style="display:none">
@@ -115,12 +116,12 @@
                 </div>
             </div>
             </div>
-            <div class="box-content" style="margin-top: 70px;"> 
+            <div class="box-content" style="margin-top: 40px;"> 
             <div id="titleStory"></div>
-            <div>Brush timeline to update brightness of map corresponding to dates<br>
-            - 2013: July shows the highest number of incidents and September displays less numbre of incidents for non-center areas.<br>
-            - 2014 - 2015 - 2016: shows that January and February had the highest number of incidents. </div>
-            - 2017:  </div>
+            <div><i>(Brush timeline to update brightness of map corresponding to dates)</i><br>
+            - 2013: July shows the highest number of incidents and September displays fewer number of incidents for non-central areas.<br>
+            - 2014 - 2015 - 2016: shows that January and February had the highest number of incidents. <br>
+            - 2017: Number of incidents per month remains between the same range: 1000 - 1500 during the whole year </div>
             </div>
         </div>
       </div>
@@ -183,7 +184,7 @@
                         
                     </div>    
                     <div id = "buttonplace">
-                        <button class = "button button1 btn btn-danger" id = "buttonsevere" disabled=true onclick="showMostSevere()">Highlight the most severe incidents</button>
+                        <button class = "button button1 btn btn-danger" id = "buttonsevere" disabled=true onclick="showMostSevere()">Highlight some of the most severe incidents</button>
                     </div>
                    </div>
                 </div>
@@ -201,11 +202,14 @@
     
     <div style="position: relative;;clear:both">    
         <div style="position: absolute;    right: 0; ">
-            <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
+            <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a><br>
+            <a href="https://data.cityofnewyork.us/Public-Safety/Incidents-Responded-to-by-Fire-Companies/tm6d-hbzd/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for incidents</a><br>
+            <a href="https://www.unitedstateszipcodes.org/zip-code-database/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for population</a><br>
+            <a  href="https://github.com/fedhere/PUI2015_EC/blob/master/mam1612_EC/nyc-zip-code-tabulation-areas-polygons.geojson" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">GeoJSON</a>
         </div>
     </div>
     
-    <script src="zipCodesIncPop.js"></script>
+    
     <script type="text/javascript"> 
     //Width and height
     var previoussection = 0;
@@ -349,7 +353,7 @@
                     nIncPer = "N/A";
                 else 
                     nIncPer = ni_choosenYear[value.toString()];
-                div.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>N of incidents</h3>"
+                div.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>N of incidents</h4>"
                             +nIncPer+"<br>Per 1000 residents")	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
@@ -389,19 +393,19 @@
             var ni_choosenYear_op2=sortProperties(ni_choosenYear_op);
             $("#hm_color1").css("background-color","#EF6C00");
             $("#hm_color1").css("opacity",ni_choosenYear_op2[0][1]);
-            $("#hm_legend1").text(parseInt(ni_choosenYear[ni_choosenYear_op2[0][0].toString()]));
+            $("#hm_legend1").text(ni_choosenYear[ni_choosenYear_op2[0][0].toString()]);
             
             $("#hm_color2").css("background-color","#EF6C00");
             $("#hm_color2").css("opacity",ni_choosenYear_op2[40][1]);
-            $("#hm_legend2").text(parseInt(ni_choosenYear[ni_choosenYear_op2[40][0].toString()]));
+            $("#hm_legend2").text(ni_choosenYear[ni_choosenYear_op2[40][0].toString()]);
             
             $("#hm_color3").css("background-color","#EF6C00");
             $("#hm_color3").css("opacity",ni_choosenYear_op2[80][1]);
-            $("#hm_legend3").text(parseInt(ni_choosenYear[ni_choosenYear_op2[80][0].toString()]));
+            $("#hm_legend3").text(ni_choosenYear[ni_choosenYear_op2[80][0].toString()]);
             
             $("#hm_color4").css("background-color","#EF6C00");
             $("#hm_color4").css("opacity",ni_choosenYear_op2[120][1]);
-            $("#hm_legend4").text(parseInt(ni_choosenYear[ni_choosenYear_op2[120][0].toString()]));
+            $("#hm_legend4").text(ni_choosenYear[ni_choosenYear_op2[120][0].toString()]);
             
             /*$("hm_color1").style("background-color","#EF6C00");
             $("hm_color1").style("opacity",ni_choosenYear_op2[0]);*/
@@ -621,7 +625,7 @@
         }
         svg3.selectAll("path")
             .style("fill", function(d){
-                    var value = d.properties.postalCode;
+                var value = d.properties.postalCode;
                 var zipCodeHighlighted = false;
                 var hasurl = false;
                 for(var i = 0; i<severestdata.length; i++){
@@ -639,7 +643,7 @@
                 }
                 else */
                 if (zipCodeHighlighted){
-                	return "#830303";
+                	return "#800000";
                 }
                 else {
                 	return "EF6C00";
@@ -703,11 +707,10 @@
                     catch (e){
                             //zipcode is not in maxunitsdata - it's fine, just go on
                     }
-                div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
+                div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Max. num. of firefighter units involved</h5>"
                             +units)	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
-            // this.style("fill", "#909090");
             var zipCodeHighlighted = false;
             var maxUnitsEver;
             var date; // date of incident for severest only
@@ -717,12 +720,15 @@
                     zipCodeHighlighted = true;
                     maxUnitsEver = severestdata[i].UNITS_ONSCENE;
                     date = dateToString(severestdata[i].INCIDENT_DATE_TIME);
-                    div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Firefighter units involved</h4>"
-                            +maxUnitsEver+"<br>"+"<h4>Date of incident</h4>"+date)	
+                    div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Firefighter units involved</h5>"
+                            +maxUnitsEver+"<br>"+"<h5>Date of incident</h5>"+date + "<br>" + "<h5><i>(Click to see the news article)</i></h5>")	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");
                     if (severestdata[i].URL) {
                             d3.select(this).style('cursor', "pointer"); // make cursor pointer - it should be clickable in this case
+                    }
+                    else{
+                    	d3.select(this).style('cursor', "default");
                     }
                 
 
@@ -760,17 +766,18 @@
                 });
 
                 d3.select(this).style('fill', function(d){
-                    return zipCodeHighlighted ? "#830303" : "#EF6C00";
+                    return zipCodeHighlighted ? "#800000" : "#EF6C00";
                 });
             });
         severeAreShown = true;
         var severebutton = document.getElementById("buttonsevere");
         var severetext = document.getElementById("story3");
         severebutton.innerHTML = "Back to all incidents"; // change text of the button
-        severetext.innerHTML = "Some of the most severe incidents (involving at least 90 firefighter units) across the entire dataset are now highlighted with dark red colors, while the rest of the map has been dimmed. Here the distribution is more clear, with the most severe incidents having occured in Western Queens and Upper, Lower and Midtown Manhattan. <br> It is possible to click on the highlighted regions in order to visit a link with the news story covering the particular incident."; // change text of the description 
+        severetext.innerHTML = "Some of the most severe incidents across the entire dataset are now highlighted with dark red colors, while the rest of the map has been dimmed. Here the distribution is more clear, with the most severe incidents having occured in Western Queens and Upper, Lower and Midtown Manhattan. <br> It is possible to click on the highlighted regions in order to visit a link with the news story covering the particular incident."; // change text of the description 
     }
 
     function hideMostSevere(){
+    	console.log("hidingsevere");	
                 svg3.selectAll("path")
                 .style("fill", "#EF6C00")
         .style("opacity",function(d) {
@@ -788,9 +795,11 @@
         })
         .on("click", function(d){
                 // nothing
+                console.log("banana");
         })
         .on("mouseover", function(d) {
-                        d3.select(this).style('cursor', "default"); // make cursor default again
+        	console.log("apple");
+            d3.select(this).style('cursor', "default"); // make cursor default again
             div.transition()		
                 .duration(200)		
                 .style("opacity", .9);
@@ -803,7 +812,7 @@
                 catch (e){
                         //zipcode is not in maxunitsdata - it's fine, just go on
                 }
-            div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
+            div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Max. num. of firefighter units involved</h5>"
                         +units)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
@@ -832,9 +841,9 @@
             d3.select(this).style('fill', "#EF6C00");
         });
         var severebutton = document.getElementById("buttonsevere");
-        severebutton.innerHTML = "Highlight the most severe incidents"; // change text of the button
+        severebutton.innerHTML = "Highlight some of the most severe incidents"; // change text of the button
         var severetext = document.getElementById("story3");
-        severetext.innerHTML = "In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset."; // change text of the description 
+        severetext.innerHTML = "In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with an incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset."; // change text of the description 
     }
     
     //Load in GeoJSON data
@@ -842,10 +851,9 @@
         spinner2.stop();
         var buttonsevere = document.getElementById("buttonsevere");
     	buttonsevere.disabled = false; // finished loading data, enable the button        
-        buttonsevere.innerHTML = "Highlight the most severe incidents"; // change text of the button
+        buttonsevere.innerHTML = "Highlight some of the most severe incidents"; // change text of the button
         severeAreShown = false; // when switching years, do not show severe stuffs
-        var severetext = document.getElementById("story3");
-        severetext.innerHTML = "In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset."; // change text of the description 
+        hideMostSevere();
         var nymap = svg3.selectAll("path")
         .style("fill", "#EF6C00")
            .style("opacity",function(d) {
@@ -874,12 +882,13 @@
         	catch (e){
         		//zipcode is not in maxunitsdata - it's fine, just go on
         	}
-            div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
+            div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Max. num. of firefighter units involved</h5>"
                         +units)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
            // this.style("fill", "#909090");
             var currentState = this;
+            d3.select(this).style('cursor', "default");
             d3.select(this).style('fill', "#e1e1e1");
             d3.select(this).style('stroke', "#333333");
             d3.select(this).style('stroke-opacity',  "1");
@@ -932,6 +941,7 @@
      }
     
     </script>
+    <script src="zipCodesIncPop.js"></script>
     <script src="incident-type-map.js"></script>
     </body>
 </html>

@@ -14,49 +14,105 @@
             <li>What is your dataset?</li>
             <p>Our dataset is "Incidents Responded to by Fire Companies" and it was obtained from the "NYC Open Data". It contains information about incidents handled by the New York City Fire Department. After responding to an incident, the New York City Fire Department complete modules on a system called "New York Fire Incident Reporting System". The used dataset comes from the data collected by this system.</p>
             <li>Why did you choose this/these particular dataset(s)?</li>
-            <p>This dataset seemed like a good idea due to the massive amount of data it has, as well as due to the fact that it is filled by the Fire Department of New York directly. Although it does not contain the precise locations of the incidents, it was deemed enough to visualize the data using the ZIP code information.</p>
+            <p>This dataset seemed like a good idea due to the massive amount of data it has, as well as due to the fact that it is filled by the Fire Department of New York directly. Although it does not contain the latitude and longitude coordinates of the incidents, the ZIP code location was enough to present information about the different areas.</p>
             
             <li>What was your goal for the end user’s experience?</li>
-            <p>We wanted to present a page easy to navigate, with a nice and simple presentation that could draw attention from the user.</p>
+            <p>We wanted to present a page easy to navigate, with a nice and simple presentation that could draw the attention of the user. We also wanted to highlight the important information (e.g. highest number of incidents, biggest incidents) by using annotations or buttons.</p>
             </ul>
         <h2>Basic stats. Let’s understand the dataset better</h2>
             <ul class="bullet">
-            <li>Write about your choices in data cleaning and preprocessing</li>
-            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a heatmap displaying the number of incidents.<br>
-            In order to present the number of incidents per number of residents, allowing to offer a real comparison between zones based on the number of people living there, we used a dataset that contained population from 2015 for every zip code.   </p>
-            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.</li>
-            <p>For this project we used 5? csv files created using pandas library in Python. Here we discussed the use of this csvs and the use in the created plots:<br>
-            - "zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.<br>
-            - incidents_year/.csv : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</p>
+            <li>Write about your choices in data cleaning and preprocessing  (Alex, Lukas)</li>
+            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicating the number of incidents for each zip code area.<br>
+In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
+            <br>
+            The csv created in Pandas in used in this project are:<br>
+            <ul>
+            <li>"zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.</li>
+            <li>"incidents_year/.csv" : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</li>
+            </ul>
+            </p>
+            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.(Alex, Lukas)</li>
+            <p>The dataset contains 2.28 million rows with 24 columns. The main columns we used are:
+            <ul>
+            <li>ZIP_CODE: The postal zip code where the incident took place</li>
+            <li>INCIDENT_DATE_TIME: The date and time that the incident was logged. This is used for the division of number of incidents per year and for the timeline.</li>
+            <li>UNITS_ONSCENE: Total number of units that arrived on scene. This is used for the severity section.</li>
+            </ul>
+            </p>
             </ul>
         <h2>Genre. Which genre of data story did you use?</h2>
-            <ul class="bullet">
-            <li>Which tools did you use from each of the 3 categories of Visual Narrative (Figure 7 in Segal and Heer). Why?</li>
-            <p>Visual Structuring: Consistent visual platform; Highlighting: Feature distinction; Transition Guidance: nothing.</p>
-            <li>Which tools did you use from each of the 3 categories of Narrative Structure (Figure 7 in Segal and Heer). Why?</li>
-            <p>Ordering: Random access; Interactivity: Hover Highlighting, Filtering/Selection, Explicit Instructions; Messaging: Captions/Headlines, Annotations, Introductory Text.</p>
-            </ul>
+        	Our visualization can be characterized as belonging to the Partitioned Poster genre. The multiple tabs allow user to navigate
+        	around the visualization and select what he wants to see next. 
+<ul class="bullet">
+<li>Which tools did you use from each of the 3 categories of Visual Narrative (Figure 7 in Segal and Heer). Why?</li>
+<ul>
+<li>Visual Structuring:
+<ul>
+<li>Consistent visual platform. We aimed at creating a consistent visual platform to enhance user experience: every page looks similar, with the map of NYC in the center and some clarifying text or option description on the right hand side of the page.</li>
+</ul>
+</li>
+<li>Highlighting:
+<ul>
+<li>Feature distinction. A user can clearly see the way through the visualization: the page is loaded at the introduction and the tabs with other information are easily accessible from there.</li>
+</ul>
+<!--Transition Guidance:.<!--></li>
+</ul>
+<li>Which tools did you use from each of the 3 categories of Narrative Structure (Figure 7 in Segal and Heer). Why?</li>
+<ul>
+<li>Ordering:
+<ul>
+<li>User Directed Path. The introduction page is the one that clarifies the idea behind the visualization to the user; however, the user is not confined to follow any defined path and may explore the visualization in any way he prefers.</li>
+</ul>
+</li>
+<li>Interactivity:
+<ul>
+<li>Hover Highlighting. In every tab, there is some information given to the user when hovering above the map.</li>
+<li>Filtering/Selection. Some parts of the visualization allow the user to filter the map (using the brush) to gain deeper insights into the data.</li>
+<li>Explicit Instructions. in some parts, we inform the user of their options directly (such as by having a text on the button or next to the brushable timeline) in order to make sure this part of visualiztion is noticed and interacted with.</li>
+</ul>
+</li>
+<li>Messaging:
+<ul>
+<li>Captions/Headlines. We have headlines for parts of the visualization to make it clear what the part is supposed to represent.</li>
+<li>Annotations: Every tab of the visualization includes a text briefly describing what is currently displayed in the page. Some of them provide succinct observations on the patterns in data.</li>
+<li>Clear Introductory Text: We have an introductory tab in order to let the reader know what the idea behind the visualization is.</li>
+</ul>
+</li>
+</ul>
+</ul>
         <h2>Visualizations.</h2>
             <ul class="bullet">
             <li>Explain the visualizations you’ve chosen.</li>
-            <p></p>
+            <p>We chose a Geomap to display the map of New York. This map is used in every section and the opacity of the areas is changed according to the number of incidents. The functionallity of all the buttons change colors/opacity of the map, depending on the information displayed. We also added a timeline to display number of incidents group by zip code, per year.</p>
             <li>Why are they right for the story you want to tell?</li>
-            <p></p>
+            <p>We wanted to let users explore the data from our dataset to potentially discover some interesting patterns, and the map seemed like a reasonable choice as it allowed us display the differences between different parts of the city. We opted for using color codes due to not having access to the exact lat/lon coordinates of the incidents. Finally, separation of dataset by years and using brushable timeline (in "Incidents per Year" section) allows narrowing down on the information one might be interested in, and makes it possible to compare data among different time periods.</p>
             </ul>
         <h2>Discussion. Think critically about your creation</h2>
             <ul class="bullet">
             <li>What went well?</li>
-            <p></p>
+            <p>Our original idea was implemented. We wanted to provide visualizations about the number of incidents, types of incidents and severity in order to display the zones were incidents happened the most and what are the main causes, as well where did the biggest incidents took place. <br>
+            We think that the user can easily navigate through the page and have a general overview of number of incidents of New York and at the same time have access to information about the incidents.</p>
             <li>What is still missing? What could be improved?, Why?</li>
             <p>We used Chrome for running and testing of the project. The code processes a lot of data and it seems that in other web browsers (ex. Firefox) it takes a long time to load the page. This is something that could be improved.</p>
             </ul>
         <h2>Contributions. Who did what?</h2>
             <ul class="bullet">
             <li>Aleksandrs Levi</li>
+            <ul>
+            <li>"Introduction"</li>
+            <li>"Severity section" including data processing in Python</li>
+            </ul>
             <p></p>
             <li>Lukás Bátrla</li>
+            <ul>
+            <li>"Type of incidents" including data processing in Python</li>
+            </ul>
             <p></p>
             <li>Alechandrina Pereira</li>
+            <ul>
+            <li>Design of template</li>
+            <li>"Incidents per year" section including data processing in Python</li>
+            </ul>
             <p></p>
             </ul>
     </div>
