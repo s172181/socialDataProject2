@@ -75,7 +75,7 @@
                         var normalize = (zipcodesAll[key][subkey] - minV[key])/(maxV[key]-minV[key]);
                         //console.log("Year "+key+"Zip code "+subkey+" - "+normalize);
                         
-                        totalincAll[key][subkey] =  normalize*2;
+                        totalincAll[key][subkey] =  normalize*1.5;
                     }
             }
             //console.log(
@@ -235,7 +235,7 @@
      * This function changes the timeline (year)
      * */
     function changetimeline(year) {
-        $(".listyears").removeClass("selected");
+        $("#listyear .listyears").removeClass("selected");
         $("#l"+year).addClass("selected");
         yearsection1 = year;
         loadinfomap(zipcodesAll[year],totalincAll[year]);
@@ -247,7 +247,13 @@
      * 
      */
     var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"); //convert strings to dates in Date format
-    var maxunitsdata;
+    var dateToString = d3.timeFormat("%Y-%m-%d"); // and vice versa (ditch the time though)
+    var maxunitsdata; // currently displayed
+    var maxunitsdata13;
+    var maxunitsdata14;
+    var maxunitsdata15;
+    var maxunitsdata16;
+    var maxunitsdata17;
     var unitsNumbers = function(row){
                                     return{
                                             INCIDENT_DATE_TIME: parseDate(row.INCIDENT_DATE_TIME),
@@ -256,9 +262,76 @@
                                             URL: row.URL
                                     }	
                             }
-    d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
+
+    function changeseverity(year){
+        //console.log('dude');
+        
+        $("#listyear3 .listyears").removeClass("selected");
+        $("#lsev"+year).addClass("selected");
+        if (year==='2013') {
+            maxunitsdata = maxunitsdata13;
+            loadinfomap3();
+        }
+        else if (year==='2014'){
+            maxunitsdata = maxunitsdata14;
+            loadinfomap3();
+        }
+        else if (year==='2015'){
+            maxunitsdata = maxunitsdata15;
+            loadinfomap3();
+        }
+        else if (year==='2016'){
+            maxunitsdata = maxunitsdata16;
+            loadinfomap3();
+        }
+        else if (year==='2017'){
+            maxunitsdata = maxunitsdata17;
+            loadinfomap3();
+        }
+
+
+    }                        
+
+    d3.csv("full_csv_year_files/2013full.csv", unitsNumbers, function(data){
         
             maxunitsdata = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+            maxunitsdata13 = maxunitsdata; // store
+                    loadinfomap3();
+        });
+    d3.csv("full_csv_year_files/2014full.csv", unitsNumbers, function(data){
+        
+            maxunitsdata14 = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+                    loadinfomap3();
+        });
+    d3.csv("full_csv_year_files/2015full.csv", unitsNumbers, function(data){
+        
+            maxunitsdata15 = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+                    loadinfomap3();
+        });
+    d3.csv("full_csv_year_files/2016full.csv", unitsNumbers, function(data){
+        
+            maxunitsdata16 = d3.nest()
+                    .key(function(d){return d.ZIP_CODE;})
+                    .rollup(function(d){
+                            return d3.max(d, function(g){return g.UNITS_ONSCENE;});
+                    }).entries(data);
+                    loadinfomap3();
+        });
+    d3.csv("full_csv_year_files/2017full.csv", unitsNumbers, function(data){
+        
+            maxunitsdata17 = d3.nest()
                     .key(function(d){return d.ZIP_CODE;})
                     .rollup(function(d){
                             return d3.max(d, function(g){return g.UNITS_ONSCENE;});
