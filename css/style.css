@@ -73,15 +73,18 @@ font-family: 'Roboto', 'Noto', sans-serif;
     padding: 20px 75px !important;
 }
 #tabsContainer {
-   position: absolute;
-   bottom:-1px;
-   /*left: 15%;
-    transform: translatex(-6%);*/
-        right: 0;
-    margin: 0 auto;
-    left: 0;
-    width: 1100px;
+   margin:0;
+  padding:0;
+  clear:both;
+  text-align:center;
+  margin-top: 27px;
 }
+#tabsContainer li{
+display:inline-block;
+  padding:10px 20px;
+  margin:0;
+}
+
 #titleStory, #titleStory2,#titleStory3 {
 font-size: 25px;
 font-weight: 500;
