@@ -21,13 +21,24 @@
             </ul>
         <h2>Basic stats. Let’s understand the dataset better</h2>
             <ul class="bullet">
-            <li>Write about your choices in data cleaning and preprocessing</li>
-            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a heatmap displaying the number of incidents.<br>
-            In order to present the number of incidents per number of residents, allowing to offer a real comparison between zones based on the number of people living there, we used a dataset that contained population from 2015 for every zip code.   </p>
-            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.</li>
-            <p>For this project we used 5? csv files created using pandas library in Python. Here we discussed the use of this csvs and the use in the created plots:<br>
-            - "zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.<br>
-            - incidents_year/.csv : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</p>
+            <li>Write about your choices in data cleaning and preprocessing  (Alex, Lukas)</li>
+            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicated the number of incidents for each zip code area.<br>
+In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
+            <br>
+            The csv created in Pandas in used in this project are:<br>
+            <ul>
+            <li>"zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.</li>
+            <li>"incidents_year/.csv" : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</li>
+            </ul>
+            </p>
+            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.(Alex, Lukas)</li>
+            <p>The dataset contains 2.28 million rows with 24 columns. The main columns we used are:
+            <ul>
+            <li>ZIP_CODE: The postal zip code where the incident took place</li>
+            <li>INCIDENT_DATE_TIME: The date and time that the incident was logged. This is used for the division of number of incidents per year and for the timeline.</li>
+            <li>UNITS_ONSCENE: Total number of units that arrived on scene. This is used for the severity section.</li>
+            </ul>
+            </p>
             </ul>
         <h2>Genre. Which genre of data story did you use?</h2>
             <ul class="bullet">
