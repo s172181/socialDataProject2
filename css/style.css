@@ -43,6 +43,9 @@ background: linear-gradient(to right, #fdbb2d, #b21f1f, #1a2a6c); /* W3C, IE 10+
     border-color: #222222 !important;
     box-shadow: 0 0.2px 15px rgba(0,0,0,.5);
 }
+.navbar-header {
+    width: 100%;
+}
 .nav-tabs {
     border-bottom: 0 solid #ddd !important;
     display: inline-block; /* needed to center the list items */
@@ -70,7 +73,7 @@ font-family: 'Roboto', 'Noto', sans-serif;
 .nav-pills > li {
 }
 .nav>li>a {
-    padding: 20px 75px !important;
+    padding: 20px 35px !important;
 }
 #tabsContainer {
    margin:0;
@@ -78,6 +81,10 @@ font-family: 'Roboto', 'Noto', sans-serif;
   clear:both;
   text-align:center;
   margin-top: 27px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
 }
 #tabsContainer li{
 display:inline-block;
