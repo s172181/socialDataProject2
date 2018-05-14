@@ -21,7 +21,7 @@
             </ul>
         <h2>Basic stats. Let’s understand the dataset better</h2>
             <ul class="bullet">
-            <li>Write about your choices in data cleaning and preprocessing  (Alex, Lukas)</li>
+            <li>Write about your choices in data cleaning and preprocessing</li>
             <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicating the number of incidents for each zip code area.<br>
 In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
             <br>
@@ -29,9 +29,12 @@ In the section "Incidents per year", to display a real comparison between zones,
             <ul>
             <li>"zipcodesAll.csv": contains all the zip codes and the number of incidents occurred in that zip area, from 2013 to 2017. In javascript we calculate the number of incidents per 1000 residents using population dataset.</li>
             <li>"incidents_year/.csv" : contains a group of csv files divided by year. Each csv file contains information from the corresponding year, about the date of occurred incidents and the zip code area. This is used for the timeline.</li>
+            <li>"NYC_zip_codes_population_2015.csv": contains information on the population per ZIP code in NYC for 2015, used as the base for normalization for the first (incident count) map displayed in the visualization.</li>
+            <li>"full_csv_year_files/2013-17full.csv": contains the columns ZIP_CODE, INCIDENT_DATE_TIME, UNITS_ON_SCENE from the initial dataset, separated by years for faster processing.</li>
+            <li>"biggestincidentsalltime.csv": contains the same columns as the csv above plus URLs to the corresponding news story for the "most severe incidents" from the "severity map" part of the visualization.</li>
             </ul>
             </p>
-            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.(Alex, Lukas)</li>
+            <li>Write a short section that discusses the dataset stats, containing key points/plots from your exploratory data analysis.</li>
             <p>The dataset contains 2.28 million rows with 24 columns. The main columns we used are:
             <ul>
             <li>ZIP_CODE: The postal zip code where the incident took place</li>
@@ -93,7 +96,8 @@ In the section "Incidents per year", to display a real comparison between zones,
             <p>Our original idea was implemented. We wanted to provide visualizations about the number of incidents, types of incidents and severity in order to display the zones were incidents happened the most and what are the main causes, as well where did the biggest incidents took place. <br>
             We think that the user can easily navigate through the page and have a general overview of number of incidents of New York and at the same time have access to information about the incidents.</p>
             <li>What is still missing? What could be improved?, Why?</li>
-            <p>We used Chrome for running and testing of the project. The code processes a lot of data and it seems that in other web browsers (ex. Firefox) it takes a long time to load the page. This is something that could be improved.</p>
+            <p>We used Chrome for running and testing of the project. The code processes a lot of data and it seems that in other web browsers (ex. Firefox) it takes a long time to load the page. This is something that could be improved.<br>
+            Besides that, having done the visualization, we realize that the story we presented is quite open-ended - user is able to explore the visualizations, but there is no precise message we are telling by it. Therefore, it would be quite beneficial to view other parts of the dataset, such as times it took for firefighter brigades to arrive, the amount of people with fire alarms in their home, and so on, and try to figure out patterns which could lead to preventing incidents in the future.</p>
             </ul>
         <h2>Contributions. Who did what?</h2>
             <ul class="bullet">
