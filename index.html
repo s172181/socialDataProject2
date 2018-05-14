@@ -231,7 +231,9 @@
             <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a><br>
             <a href="https://data.cityofnewyork.us/Public-Safety/Incidents-Responded-to-by-Fire-Companies/tm6d-hbzd/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for incidents</a><br>
             <a href="https://www.unitedstateszipcodes.org/zip-code-database/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for population</a><br>
-            <a  href="https://github.com/fedhere/PUI2015_EC/blob/master/mam1612_EC/nyc-zip-code-tabulation-areas-polygons.geojson" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">GeoJSON</a>
+            <a  href="https://github.com/fedhere/PUI2015_EC/blob/master/mam1612_EC/nyc-zip-code-tabulation-areas-polygons.geojson" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">GeoJSON</a><br>
+            <a href="https://github.com/s172181/socialDataProject2" style="color: #29b6f6;margin: 0px;margin-left: 15px;cursor:pointer">GitHub data-story page </a>
+            <a href="https://github.com/s172181/socialDataProject2/blob/master/explainer.html" style="color: #29b6f6;margin: 0px;margin-right: 15px;cursor:pointer">(explainer page)</a>
         </div>
     </div>
     
@@ -951,6 +953,7 @@
         $("#lsection"+previoussection).removeClass("active");
         $("#lsection"+section).addClass("active");
         previoussection = section;
+        if (section == 3) { loadinfomap3() }
      }
     
     </script>
