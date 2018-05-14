@@ -235,7 +235,7 @@
      * This function changes the timeline (year)
      * */
     function changetimeline(year) {
-        $(".listyears").removeClass("selected");
+        $("#listyear .listyears").removeClass("selected");
         $("#l"+year).addClass("selected");
         yearsection1 = year;
         loadinfomap(zipcodesAll[year],totalincAll[year]);
@@ -266,7 +266,7 @@
     function changeseverity(year){
         //console.log('dude');
         
-        $(".listyears").removeClass("selected");
+        $("#listyear3 .listyears").removeClass("selected");
         $("#lsev"+year).addClass("selected");
         if (year==='2013') {
             maxunitsdata = maxunitsdata13;
