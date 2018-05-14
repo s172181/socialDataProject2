@@ -57,7 +57,6 @@
                         
                    }
                    //if (year=="2013")
-                   //console.log("zip heere "+condestring2.toString()+" - "+zipcodesAll[year][condestring2.toString()]);
                    if (zipcodesAll[year][condestring2.toString()] > maxV[year]) {
                         maxV[year] = zipcodesAll[year][condestring2.toString()];
                         whatzip = condestring2.toString();
@@ -71,14 +70,11 @@
                     totalincAll[key] = {};
                     for(var subkey in zipcodesAll[key])
                     {
-                        //console.log("min "+minV[key]+" max "+maxV[key]);
                         var normalize = (zipcodesAll[key][subkey] - minV[key])/(maxV[key]-minV[key]);
-                        //console.log("Year "+key+"Zip code "+subkey+" - "+normalize);
                         
                         totalincAll[key][subkey] =  normalize*1.5;
                     }
             }
-            //console.log(
             loaddatamap(zipcodesAll["2013"],totalincAll["2013"]);
             loadtimeline2013();
     })
@@ -264,7 +260,6 @@
                             }
 
     function changeseverity(year){
-        //console.log('dude');
         
         $("#listyear3 .listyears").removeClass("selected");
         $("#lsev"+year).addClass("selected");
