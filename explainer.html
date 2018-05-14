@@ -22,7 +22,7 @@
         <h2>Basic stats. Let’s understand the dataset better</h2>
             <ul class="bullet">
             <li>Write about your choices in data cleaning and preprocessing  (Alex, Lukas)</li>
-            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicated the number of incidents for each zip code area.<br>
+            <p>The selected dataset is very large. In order to extract the necessary information in a way that could be easy and faster to access, we used the pandas library in Python to create csv files. Because the dataset contains zip codes, we used a New York GeoJSON that allowed us to create a map with consistent color encoding, with opacity indicating the number of incidents for each zip code area.<br>
 In the section "Incidents per year", to display a real comparison between zones, we used a dataset that contained population from 2015 for every zip code, and presented the numbers of incidents per 1000 residents. To create the timeline we created csvs per years in Pandas grouped by day and zip code.
             <br>
             The csv created in Pandas in used in this project are:<br>
@@ -68,14 +68,14 @@ In the section "Incidents per year", to display a real comparison between zones,
 <ul>
 <li>Hover Highlighting. In every tab, there is some information given to the user when hovering above the map.</li>
 <li>Filtering/Selection. Some parts of the visualization allow the user to filter the map (using the brush) to gain deeper insights into the data.</li>
-<li>Explicit Instructions: in some parts, we inform the user of their options directly (such as by having a text on the button or next to the brushable timeline) in order to make sure this part of visualiztion is noticed and interacted with.</li>
+<li>Explicit Instructions. in some parts, we inform the user of their options directly (such as by having a text on the button or next to the brushable timeline) in order to make sure this part of visualiztion is noticed and interacted with.</li>
 </ul>
 </li>
 <li>Messaging:
 <ul>
 <li>Captions/Headlines. We have headlines for parts of the visualization to make it clear what the part is supposed to represent.</li>
 <li>Annotations: Every tab of the visualization includes a text briefly describing what is currently displayed in the page. Some of them provide succinct observations on the patterns in data.</li>
-<li>Clear Introductory Text: We have an introductory tab in order to let the reader know what is the idea behind the visualization.</li>
+<li>Clear Introductory Text: We have an introductory tab in order to let the reader know what the idea behind the visualization is.</li>
 </ul>
 </li>
 </ul>
@@ -85,7 +85,7 @@ In the section "Incidents per year", to display a real comparison between zones,
             <li>Explain the visualizations you’ve chosen.</li>
             <p>We chose a Geomap to display the map of New York. This map is used in every section and the opacity of the areas is changed according to the number of incidents. The functionallity of all the buttons change colors/opacity of the map, depending on the information displayed. We also added a timeline to display number of incidents group by zip code, per year.</p>
             <li>Why are they right for the story you want to tell?</li>
-            <p></p>
+            <p>We wanted to let users explore the data from our dataset to potentially discover some interesting patterns, and the map seemed like a reasonable choice as it allowed us display the differences between different parts of the city. We opted for using color codes due to not having access to the exact lat/lon coordinates of the incidents. Finally, separation of dataset by years and using brushable timeline (in "Incidents per Year" section) allows narrowing down on the information one might be interested in, and makes it possible to compare data among different time periods.</p>
             </ul>
         <h2>Discussion. Think critically about your creation</h2>
             <ul class="bullet">
