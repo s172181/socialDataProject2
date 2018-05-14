@@ -126,40 +126,43 @@
       </div>
       <div id="section2" style="display:none">
         <div id="visualizations2"> 
-            <div id = "graphics2">
-                <div id="listyear2">
-                    <ul>
-                    <li><a id="l2013" class="listyears selected" onclick="changetimeline('2013')">2013</a></li>
-                    <li><a id="l2014" class="listyears" onclick="changetimeline('2014')">2014</a></li>
-                    <li><a id="l2015" class="listyears" onclick="changetimeline('2015')">2015</a></li>
-                    <li><a id="l2016" class="listyears" onclick="changetimeline('2016')">2016</a></li>
-                    <li><a id="l2017" class="listyears" onclick="changetimeline('2017')">2017</a></li>
-                    </ul>
-                </div>
-                <div id="maprest2">
-                   <div id="mapandtime2">
-                    <div id="mapgraph2" class="centergraphs">
-                        
-                    </div>    
-                    <div id = "timeline2" class="centergraphs2">
+        <div id = "graphics2">
+            <div id="listyear2">
+                <ul>
+                <li><a id="l2013" class="listyears selected" onclick="displayOneTypeData(0,'2013')">2013</a></li>
+                <li><a id="l2014" class="listyears" onclick="displayOneTypeData(0,'2014')">2014</a></li>
+                <li><a id="l2015" class="listyears" onclick="displayOneTypeData(0,'2015')">2015</a></li>
+                <li><a id="l2016" class="listyears" onclick="displayOneTypeData(0,'2016')">2016</a></li>
+                <li><a id="l2017" class="listyears" onclick="displayOneTypeData(0,'2017')">2017</a></li>
+                </ul>
+            </div>
+            <div id="maprest2">
+               <div id="mapandtime2">
+                <div id="mapgraph2" class="centergraphs">
                     
-                    </div>
-                   </div>
-                   <div id="incidenttypes2">
-                   <div class="box-content"> 
-                    <div id="titleStory2">Type of incidents</div>
-                    <div>Here list of incidents</div>
-                    </div>
-                    </div>
+                </div>    
+                <div id = "timeline2" class="centergraphs2">
+                
+                </div>
+               </div>
+               <div id="incidenttypes2">
+               <div class="box-content" style="height: 410px;"> 
+                <div id="titleStory2">Type of incidents</div>
+                <div id="selectedtype" class="alert alert-info" data-value="300" style="padding-top:5px; padding-bottom: 5px; margin-top: 10px; margin-bottom:5px;">Rescue, EMS incident, other</div>
+                <div>Select type:</div>
+                 <div id="incidentslist" class="list-group">
+                </div>
+                </div>
                 </div>
             </div>
         </div>
-        <div id="textinfo2"> 
+    </div>
+        <!-- <div id="textinfo2"> 
             <div class="box-content"> 
             <div id="titleStory2">Example of 2222</div>
             <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
             </div>
-        </div>
+        </div> -->
       </div>
       <div id="section3" style="display:none">
         
@@ -931,6 +934,7 @@
         previoussection = section;
      }
     
-    </script>    
+    </script>
+    <script src="incident-type-map.js"></script>
     </body>
 </html>
