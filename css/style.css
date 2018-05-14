@@ -79,14 +79,14 @@ font-family: 'Roboto', 'Noto', sans-serif;
    left: 15%;
     transform: translatex(-6%);
 }
-#titleStory, #titleStory2,#titleStory3 {
+#titleStory0, #titleStory, #titleStory2,#titleStory3 {
 font-size: 25px;
 font-weight: 500;
     line-height: 1.1;
     color: inherit;
 }
 
-#textinfo,#textinfo2,#textinfo3{
+#textinfo0, #textinfo,#textinfo2,#textinfo3{
     width: 250px;
     /*width: 30%;*/
     display: inline-block;

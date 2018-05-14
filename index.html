@@ -48,11 +48,12 @@
         </div>
         
         </div>
-        <div id="textinfo3" style="    width: 500px;margin-left: -300px;margin-top: 120px;"> 
+        <div id="textinfo0" style="    width: 500px;margin-left: -300px;margin-top: 120px;"> 
             <div class="box-content"> 
-            <div id="titleStory3">Incidents in New York City</div>
-            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
-            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
+            <div id="titleStory0">Incidents Handled by Fire Department of New York City</div>
+            <div id="story0"> New York is a large city with lots of things happenning every single day. In this project
+            we have made an attempt at visualizing the incident data gathered by the Fire Department of New York City. This data includes
+            not only fire, but also many other types of incidents, such as gas leaks, explosions, elevator stalls, and more.<br><br> Different data stats, such as number of incidents, their types, and severity are displayed on the city map and available for exploration in the corresponding tabs.</div>
             </div>
         </div>
     </div>
@@ -878,7 +879,7 @@
         	catch (e){
         		//zipcode is not in maxunitsdata - it's fine, just go on
         	}
-            div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Max num of units on scene</h5>"
+            div	.html("<h5>Zip code</h5>"+d.properties.postalCode+"<br>"+"<h5>Max. num. of firefighter units involved</h5>"
                         +units)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
