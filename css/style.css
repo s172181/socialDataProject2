@@ -226,4 +226,15 @@ border-bottom-style: solid;
     overflow-y: scroll;
     height: 270px;
 }
-    
+#toi_color1 {
+    background-color: #EF6C00;
+    opacity: 1;
+}    
+#toi_color2 {
+    background-color: #EF6C00;
+    opacity: 0.021;
+}
+#toi_color3 {
+    background-color: #000000;
+    opacity: 0.09;
+}
