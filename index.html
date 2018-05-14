@@ -33,12 +33,6 @@
 
     <div id="container">
        <div id="section1">
-        <div id="textinfo"> 
-            <div class="box-content"> 
-            <div id="titleStory">Incidents in New York City</div>
-            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 in the Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
-            </div>
-        </div>
         <div id="visualizations"> 
             <div id = "graphics">
                 <div id="listyear">
@@ -55,21 +49,21 @@
                     <div id="mapgraph" class="centergraphs">
                         
                     </div>    
-                    <div id = "timeline" class="centergraphs2 box-content">
+                    <div id = "timeline" class="centergraphs2 ">
                     
                     </div>
                    </div>
                 </div>
             </div>
         </div>
-      </div>
-      <div id="section2" style="display:none">
-        <div id="textinfo2"> 
+        <div id="textinfo"> 
             <div class="box-content"> 
-            <div id="titleStory2">Example of 2222</div>
-            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
+            <div id="titleStory">Incidents in New York City</div>
+            <div>Manhattan and Brooklyn's boroughs contain the most affected areas. It can be noticed that the zip area colors for the year 2015 are more intense: the highest number of incidents occurred in this year. <br>Zip code area 11005 on the east of Queen's borough shows a drastic change: number of incidents went from 51 per 1000 residents in 2013 to 80 per 1000 residents in 2017. </div>
             </div>
         </div>
+      </div>
+      <div id="section2" style="display:none">
         <div id="visualizations2"> 
             <div id = "graphics2">
                 <div id="listyear2">
@@ -99,15 +93,15 @@
                 </div>
             </div>
         </div>
-      </div>
-      <div id="section3" style="display:none">
-        <div id="textinfo3"> 
+        <div id="textinfo2"> 
             <div class="box-content"> 
-            <div id="titleStory3">Severity of incidents</div>
-            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
-            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
+            <div id="titleStory2">Example of 2222</div>
+            <div>ELorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet libero nisi. Nunc pharetra vitae eros quis faucibus. Cras mollis finibus enim vitae tincidunt. Cras tempor ultrices ipsum, sit amet varius odio convallis ut. Duis pellentesque nisi dui, et vehicula eros bibendum sed. Nullam ut tortor sem. Nunc tempor placerat nulla sit amet euismod. Ut varius ut erat eu posuere. Ut eget consequat diam. Quisque sem orci, consectetur a efficitur ut, congue vel libero. Donec ut venenatis augue.</div>
             </div>
         </div>
+      </div>
+      <div id="section3" style="display:none">
+        
         <div id="visualizations3"> 
             <div id = "graphics3">
                 <div id="maprest3">
@@ -122,10 +116,17 @@
                 </div>
             </div>
         </div>
+        <div id="textinfo3"> 
+            <div class="box-content"> 
+            <div id="titleStory3">Severity of incidents</div>
+            <div id="story3"> In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear 
+            as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset. </div>
+            </div>
+        </div>
       </div>
     </div>
     
-    <div style="position: relative;">    
+    <div style="position: relative;;clear:both">    
         <div style="position: absolute;    right: 0; ">
             <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
         </div>
@@ -372,8 +373,8 @@
         x2 = d3.scaleTime().range([0, width]);
         brush = d3.brushX()
         .extent([[padding, padding-1], [width, height-padding]])
-        .on('end', highlightlines)
-        //.on("brush", highlightlines);
+        //.on('end', highlightlines)
+        .on("brush", highlightlines);
                 
         gBrush = svg2.append("g")
         .attr("class", "x brush")

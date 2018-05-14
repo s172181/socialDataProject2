@@ -5,6 +5,12 @@ body {
 #container {
 min-width: 1200px;
 }
+#section1,#section2,#section3 {
+/*width: 1000px;
+		height:200px;
+		margin: 0 auto;*/
+text-align: center;width:auto;margin:0 auto
+}
 div.tooltip {	
     position: absolute;			
     text-align: center;			
@@ -81,21 +87,31 @@ font-weight: 500;
 
 #textinfo,#textinfo2,#textinfo3{
     width: 250px;
-    float: right;
+    /*width: 30%;*/
+    display: inline-block;
+    vertical-align: top;
+   /* float: left;*/
         padding: 10px;
-        margin-right:10px;
+        /*margin-right:250px;*/
 }
 #visualizations, #visualizations2, #visualizations3 {
+display: inline-block;
+    vertical-align: top;
+/*width: 700px; float:left;*/
     overflow: hidden
 }
 #listyear, #listyear2, #listyear3{
-    width: 150px;
+    /*width: 150px;
     float: left;
     text-align: right;
         padding: 10px;
-        padding-top:120px;
+        padding-top:120px;*/
+    padding-top:120px;
+    display: inline-block; vertical-align: top;
 }
 #maprest,#maprest2,#maprest3 {
+display: inline-block;
+    vertical-align: top;
     overflow: hidden
 }
 #listyear ul, #listyear2 ul, #listyear3 ul {
