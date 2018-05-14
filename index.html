@@ -40,8 +40,8 @@
             <div id = "graphics0">
                 <div id="maprest0">
                    <div id="mapandtime0">
-                    <div id="mapgraph0" class="centergraphs">
-                        
+                    <div id="mapgraph5" class="centergraphs">
+                        <img src="img/map1.png"/>
                     </div>
                    </div>
             </div>
@@ -211,12 +211,6 @@
     var h = 500;     
     var yearsection1 = "2013";
     
-    //Intro
-    var svg0 = d3.select("#mapgraph0")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h);
-    
     //For section 1
     var svg = d3.select("#mapgraph")
                 .append("svg")
@@ -294,15 +288,6 @@
             .enter()
             .append("path")
             .attr("d", path);
-            
-            var nymap = svg0.selectAll("path")
-            .data(json.features)
-            .enter()
-            .append("path")
-            .attr("d", path).style("fill", function(d) {
-                //Get data value
-                return "#535353";
-            })
             
             var nymap2 = svg3.selectAll("path")
             .data(json.features)
