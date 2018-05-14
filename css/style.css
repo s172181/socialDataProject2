@@ -117,7 +117,7 @@ font-family: 'Roboto', 'Noto', sans-serif;
     background-color: transparent !important;
     cursor:pointer;
 }
-#listyear .selected, #listyear li a:hover, #listyear2.selected, #listyear2 li a:hover, #listyear3.selected, #listyear3 li a:hover{
+#listyear .selected, #listyear li a:hover, #listyear2 .selected, #listyear2 li a:hover, #listyear3 .selected, #listyear3 li a:hover{
 padding: 5px 5px !important;
     border-bottom-width: 1.5px;
 border-bottom-style: solid;

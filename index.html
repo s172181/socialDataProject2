@@ -110,6 +110,15 @@
         </div>
         <div id="visualizations3"> 
             <div id = "graphics3">
+            	<div id="listyear3">
+                    <ul>
+                    <li><a id="lsev2013" class="listyears selected" onclick="changeseverity('2013')">2013</a></li>
+                    <li><a id="lsev2014" class="listyears" onclick="changeseverity('2014')">2014</a></li>
+                    <li><a id="lsev2015" class="listyears" onclick="changeseverity('2015')">2015</a></li>
+                    <li><a id="lsev2016" class="listyears" onclick="changeseverity('2016')">2016</a></li>
+                    <li><a id="lsev2017" class="listyears" onclick="changeseverity('2017')">2017</a></li>
+                    </ul>
+                </div>
                 <div id="maprest3">
                    <div id="mapandtime3">
                     <div id="mapgraph3" class="centergraphs">
@@ -494,14 +503,28 @@
             .style("fill", function(d){
                     var value = d.properties.postalCode;
                 var zipCodeHighlighted = false;
+                var hasurl = false;
                 for(var i = 0; i<severestdata.length; i++){
                     if (value == severestdata[i].ZIP_CODE) {
                             //console.log(value);
                             zipCodeHighlighted = true;
+                            if (severestdata[i].URL) {
+                            	hasurl = true;
+                            }
                             
                     }
                 }
-                return zipCodeHighlighted ? "#830303" : "#EF6C00";
+                /*if (zipCodeHighlighted && hasurl) {
+                	return "#830303";
+                }
+                else */
+                if (zipCodeHighlighted){
+                	return "#830303";
+                }
+                else {
+                	return "EF6C00";
+                }
+                //return zipCodeHighlighted ? "#830303" : "#EF6C00";
             })
             .style("opacity", function(d){
                     //Get data value
@@ -526,7 +549,7 @@
                             
                     }
                 }
-                return zipCodeHighlighted ? 1 : (units/15000)*120;
+                return zipCodeHighlighted ? 1 : (units/25000)*120;
             })
             .on("click", function(d){
                     //console.log("hello my dude");
@@ -560,20 +583,22 @@
                     catch (e){
                             //zipcode is not in maxunitsdata - it's fine, just go on
                     }
-                div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene</h3>"
+                div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
                             +units)	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
             // this.style("fill", "#909090");
             var zipCodeHighlighted = false;
             var maxUnitsEver;
-            for(var i = 0; i<severestdata.length; i++){
+            var date; // date of incident for severest only
+            for(var i = 0; i < severestdata.length; i++){
                 if (value == severestdata[i].ZIP_CODE) {
 
                     zipCodeHighlighted = true;
                     maxUnitsEver = severestdata[i].UNITS_ONSCENE;
-                    div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene (across all years)</h3>"
-                            +maxUnitsEver)	
+                    date = dateToString(severestdata[i].INCIDENT_DATE_TIME);
+                    div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Firefighter units involved</h4>"
+                            +maxUnitsEver+"<br>"+"<h4>Date of incident</h4>"+date)	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");
                     if (severestdata[i].URL) {
@@ -611,18 +636,18 @@
                 }
                 d3.select(this).style('stroke', "none");
                 d3.select(this).style('opacity',  function(d){
-                    return zipCodeHighlighted ? 1 : (units/15000)*120;
+                    return zipCodeHighlighted ? 1 : (units/25000)*120;
                 });
 
                 d3.select(this).style('fill', function(d){
-                    return zipCodeHighlighted ? "#8B0000" : "#EF6C00";
+                    return zipCodeHighlighted ? "#830303" : "#EF6C00";
                 });
             });
         severeAreShown = true;
         var severebutton = document.getElementById("buttonsevere");
         var severetext = document.getElementById("story3");
         severebutton.innerHTML = "Back to all incidents"; // change text of the button
-        severetext.innerHTML = "The most severe incidents (involving 90 or more firefighter units) across the entire dataset are now highlighted with dark red colors, while the rest of the map has been dimmed. Here the distribution is more clear, with the most severe incidents having occured in Western Queens and Upper, Lower and Midtown Manhattan. <br> It is possible to click on some of the highlighted regions in order to visit a link with the news story covering the particular incident."; // change text of the description 
+        severetext.innerHTML = "Some of the most severe incidents (involving at least 90 firefighter units) across the entire dataset are now highlighted with dark red colors, while the rest of the map has been dimmed. Here the distribution is more clear, with the most severe incidents having occured in Western Queens and Upper, Lower and Midtown Manhattan. <br> It is possible to click on the highlighted regions in order to visit a link with the news story covering the particular incident."; // change text of the description 
     }
 
     function hideMostSevere(){
@@ -658,7 +683,7 @@
                 catch (e){
                         //zipcode is not in maxunitsdata - it's fine, just go on
                 }
-            div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene</h3>"
+            div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
                         +units)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
@@ -697,7 +722,10 @@
         spinner2.stop();
         var buttonsevere = document.getElementById("buttonsevere");
     	buttonsevere.disabled = false; // finished loading data, enable the button        
-        
+        buttonsevere.innerHTML = "Highlight the most severe incidents"; // change text of the button
+        severeAreShown = false; // when switching years, do not show severe stuffs
+        var severetext = document.getElementById("story3");
+        severetext.innerHTML = "In order to quantify where the most severe incidents occur, maximum number of firefighter units having to deal with one incident is displayed in the map. It can be observed that the distribution of severity of incidents is not as clear as the total number of incidents. <br> With the help of the button below the map it is possible to highlight the most severe incidents across the entire dataset."; // change text of the description 
         var nymap = svg3.selectAll("path")
         .style("fill", "#EF6C00")
            .style("opacity",function(d) {
@@ -726,7 +754,7 @@
         	catch (e){
         		//zipcode is not in maxunitsdata - it's fine, just go on
         	}
-            div	.html("<h3>Zip code</h3>"+d.properties.postalCode+"<br>"+"<h3>Max num of units on scene</h3>"
+            div	.html("<h4>Zip code</h4>"+d.properties.postalCode+"<br>"+"<h4>Max num of units on scene</h4>"
                         +units)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
