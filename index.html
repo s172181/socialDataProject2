@@ -48,12 +48,12 @@
         </div>
         
         </div>
-        <div id="textinfo0" style="    width: 500px;margin-left: -300px;margin-top: 120px;"> 
+        <div id="textinfo0" style="     display: inline-block;   width: 500px;margin-left: -300px;margin-top: 120px;"> 
             <div class="box-content"> 
             <div id="titleStory0">Incidents Handled by Fire Department of New York City</div>
             <div id="story0"> New York is a large city with lots of things happenning every single day. In this project
             we have made an attempt at visualizing the incident data gathered by the Fire Department of New York City. This data includes
-            not only fire, but also many other types of incidents, such as gas leaks, explosions, elevator stalls, and more.<br><br> Different data stats, such as number of incidents, their types, and severity are displayed on the city map and available for exploration in the corresponding tabs.</div>
+            not only fires, but also many other types of incidents, such as gas leaks, explosions, elevator stalls, and more.<br><br> Different data stats, such as number of incidents, their types, and severity are displayed on the city map and available for exploration in the corresponding tabs. Normally, incidents are recorded to help understand causes and prevent future incidents.</div>
             </div>
         </div>
     </div>
@@ -116,12 +116,12 @@
                 </div>
             </div>
             </div>
-            <div class="box-content" style="margin-top: 70px;"> 
+            <div class="box-content" style="margin-top: 40px;"> 
             <div id="titleStory"></div>
-            <div>Brush timeline to update brightness of map corresponding to dates<br>
-            - 2013: July shows the highest number of incidents and September displays fewer number of incidents for non-central areas.<br>
-            - 2014 - 2015 - 2016: January and February had the highest number of incidents. </div>
-            - 2017:  </div>
+            <div><i>(Brush timeline to update brightness of map corresponding to dates)</i><br>
+            - 2013: July shows the highest number of incidents and September displays less numbre of incidents for non-center areas.<br>
+            - 2014 - 2015 - 2016: shows that January and February had the highest number of incidents. <br>
+            - 2017: Number of incidents per month remains between the same range: 1000 - 1500 during the whole year </div>
             </div>
         </div>
       </div>
@@ -202,11 +202,14 @@
     
     <div style="position: relative;;clear:both">    
         <div style="position: absolute;    right: 0; ">
-            <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a>
+            <a href="explainer.html" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Go to Explainer page</a><br>
+            <a href="https://data.cityofnewyork.us/Public-Safety/Incidents-Responded-to-by-Fire-Companies/tm6d-hbzd/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for incidents</a><br>
+            <a href="https://www.unitedstateszipcodes.org/zip-code-database/" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">Data set for population</a><br>
+            <a  href="https://github.com/fedhere/PUI2015_EC/blob/master/mam1612_EC/nyc-zip-code-tabulation-areas-polygons.geojson" style="color: #29b6f6;margin: 0px 15px;cursor:pointer">GeoJSON</a>
         </div>
     </div>
     
-    <script src="zipCodesIncPop.js"></script>
+    
     <script type="text/javascript"> 
     //Width and height
     var previoussection = 0;
@@ -390,19 +393,19 @@
             var ni_choosenYear_op2=sortProperties(ni_choosenYear_op);
             $("#hm_color1").css("background-color","#EF6C00");
             $("#hm_color1").css("opacity",ni_choosenYear_op2[0][1]);
-            $("#hm_legend1").text(parseInt(ni_choosenYear[ni_choosenYear_op2[0][0].toString()]));
+            $("#hm_legend1").text(ni_choosenYear[ni_choosenYear_op2[0][0].toString()]);
             
             $("#hm_color2").css("background-color","#EF6C00");
             $("#hm_color2").css("opacity",ni_choosenYear_op2[40][1]);
-            $("#hm_legend2").text(parseInt(ni_choosenYear[ni_choosenYear_op2[40][0].toString()]));
+            $("#hm_legend2").text(ni_choosenYear[ni_choosenYear_op2[40][0].toString()]);
             
             $("#hm_color3").css("background-color","#EF6C00");
             $("#hm_color3").css("opacity",ni_choosenYear_op2[80][1]);
-            $("#hm_legend3").text(parseInt(ni_choosenYear[ni_choosenYear_op2[80][0].toString()]));
+            $("#hm_legend3").text(ni_choosenYear[ni_choosenYear_op2[80][0].toString()]);
             
             $("#hm_color4").css("background-color","#EF6C00");
             $("#hm_color4").css("opacity",ni_choosenYear_op2[120][1]);
-            $("#hm_legend4").text(parseInt(ni_choosenYear[ni_choosenYear_op2[120][0].toString()]));
+            $("#hm_legend4").text(ni_choosenYear[ni_choosenYear_op2[120][0].toString()]);
             
             /*$("hm_color1").style("background-color","#EF6C00");
             $("hm_color1").style("opacity",ni_choosenYear_op2[0]);*/
@@ -938,6 +941,7 @@
      }
     
     </script>
+    <script src="zipCodesIncPop.js"></script>
     <script src="incident-type-map.js"></script>
     </body>
 </html>

@@ -4,7 +4,6 @@ body {
 }
 #container {
 min-width: 1200px;
-max-width: 1200px;
 }
 #section1,#section2,#section3,#section0 {
 /*width: 1000px;
@@ -76,17 +75,21 @@ font-family: 'Roboto', 'Noto', sans-serif;
 #tabsContainer {
    position: absolute;
    bottom:-1px;
-   left: 15%;
-    transform: translatex(-6%);
+   /*left: 15%;
+    transform: translatex(-6%);*/
+        right: 0;
+    margin: 0 auto;
+    left: 0;
+    width: 1060px;
 }
-#titleStory0, #titleStory, #titleStory2,#titleStory3 {
+#titleStory, #titleStory2,#titleStory3 {
 font-size: 25px;
 font-weight: 500;
     line-height: 1.1;
     color: inherit;
 }
 
-#textinfo0, #textinfo,#textinfo2,#textinfo3{
+#textinfo,#textinfo2,#textinfo3{
     width: 250px;
     /*width: 30%;*/
     display: inline-block;
@@ -213,3 +216,4 @@ border-bottom-style: solid;
     overflow-y: scroll;
     height: 270px;
 }
+    

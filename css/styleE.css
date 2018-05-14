@@ -5,70 +5,8 @@ body {
     height: 1000px;
 }
 
-.sidenav {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    /*background-image: linear-gradient(to right bottom, #051937, #1b3157, #304b79, #46679d, #5c85c2);*/
-    background: #1a2a6c;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #fdbb2d, #b21f1f, #1a2a6c);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #fdbb2d, #b21f1f, #1a2a6c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    overflow-x: hidden;
-    /*padding-top: 20px;*/
-}
-
-.sidenav #headernav {
-    padding: 20px 8px 20px 16px;  
-    color:white;
-    font-weight: bold;
-    
-    border-radius:0px;
-    font-family: 'Roboto', 'Noto', sans-serif;
-    /*background-color: #354853;*/
-}
-
-.sidenav #navdivision {
-    color: white;
-    background: #000D21;
-    padding: 10px 25px 10px 15px;
-    font-size: 12px;
-}
-
-hr.style-six {
-    border: 0;
-    height: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    margin-top:0;
-}
-
-.sidenav h3 {
-    margin: 0;
-    font-weight: 400 !important;
-}
-
-.sidenav p {
-    font-size: 15px;
-}
-
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 14px;
-    color: #d4d4d4;
-    display: block;
-}
-
-.sidenav .navelem:hover {
-    color: #fff;
-    background: #061A38;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
+p,li {
+        font-size: 14px;
 }
 
 #content {
